@@ -1,1 +1,1 @@
-# Proverbs-Demo
+# Proverbs_demo
