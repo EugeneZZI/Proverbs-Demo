@@ -47,7 +47,7 @@ class RandomProverbViewController: BannerViewController {
     
     @IBAction func shareButtonPushed(_ sender: Any) {
         guard let proverb = self.currentProverb else { return }
-        let shareActionSheet = ActionSheetViewController.makeShareActionSheet(withDelegate: self, proverb: proverb)
+        let shareActionSheet = self.makeShareActionSheet(withDelegate: self, proverb: proverb)
         shareActionSheet?.present(onViewController: self)
     }
     
@@ -242,22 +242,6 @@ class RandomProverbViewController: BannerViewController {
         if originIdentifier == currentIdentifier {
             self.updateSaveButton(toFavorite: false)
         }
-    }
-    
-}
-
-extension RandomProverbViewController: ContentShareHelperDelegate {
-    
-    func contentShareHelperDidShare(_ helper: ContentShareHelper) {
-        
-    }
-    
-    func contentShareHelperDidCancelShare(_ helper: ContentShareHelper) {
-        
-    }
-    
-    func contentShareHelperDidFailToShare(_ helper: ContentShareHelper, error: Error?) {
-        
     }
     
 }

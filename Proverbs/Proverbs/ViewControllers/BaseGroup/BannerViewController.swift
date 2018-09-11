@@ -123,15 +123,15 @@ class BannerViewController: BaseViewController, GADBannerViewDelegate {
     }
     
     private func getBannerID() -> String? {
-        #if DEBUG 
-        return "ca-app-pub-3940256099942544/2934735716"
+        #if DEBUG
+        return "ca-app-pub-XXXX"
         #else
         if self is RandomProverbViewController {
-            return ""
+            return "ca-app-pub-XXXX"
         } else if self is FavoritesProverbsViewController {
-            return ""
+            return "ca-app-pub-XXXX"
         } else if self is ProverbViewController {
-            return ""
+            return "ca-app-pub-XXXX"
         } else {
             return nil
         }

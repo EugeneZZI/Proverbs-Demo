@@ -14,7 +14,7 @@ class IAPController: NSObject {
     static let shared = IAPController()
     
     private static let PurchaseKey          = "IAPController.isPurchased.key"
-    private static let ProductIdentifier    = ""
+    private static let ProductIdentifier    = "com.demo.EnglishProverbsAndSayings.XXXX"
     
     struct NotificationName {
         static let DidPurchase  = "IAPController.DidPurchase"

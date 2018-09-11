@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class MenuItem: Equatable, Payable {
+class MenuItem: Equatable, Unlockable {
     
     enum ItemType: String {
         case random     = "Random"
@@ -36,16 +36,20 @@ class MenuItem: Equatable, Payable {
         return self.getColor(forType: self.type)
     }
     
-    var isPayable: Bool {
+    var unlockType: UnlockableType {
         switch self.type {
-        case .allList, .login: return true
-        default: return false
+        case .allList:  return .payOrShare
+        case .login:    return .pay
+        default:        return .free
         }
     }
     
-    var payedAndCanBePerformed: Bool {
-        if !self.isPayable { return true }
-        return IAPController.shared.isPurchased
+    var canBePerformed: Bool {
+        switch self.unlockType {
+        case .pay: 	        return IAPController.shared.isPurchased
+        case .payOrShare:   return IAPController.shared.isPurchased || ShareToUnlock.shared.isUnlocked
+        default:            return true
+        }
     }
     
     // ---
@@ -77,7 +81,7 @@ class MenuItem: Equatable, Payable {
     static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
         return lhs.type == rhs.type
     }
-
+    
 }
 
 protocol MenuListViewControllerDelegate: class {
@@ -85,7 +89,7 @@ protocol MenuListViewControllerDelegate: class {
 }
 
 class MenuListViewController: BaseViewController {
-
+    
     // MARK: - IBOutlets
     
     @IBOutlet private weak var blurEffect:          UIVisualEffectView!
@@ -97,7 +101,7 @@ class MenuListViewController: BaseViewController {
     private var elementsViews = [UIView]()
     private var menuItems: [MenuItem]!
     private var originalFrames = [Int: CGRect]()
-
+    
     private lazy var _showOnce: () = {
         self.createViews()
         self.disableAllButtons(true)
@@ -152,7 +156,7 @@ class MenuListViewController: BaseViewController {
     private func createViews() {
         let navigationBarViewWidth: CGFloat = ScreenSize.width - GlobalUI.Offsets.side
         let buttonWidth: CGFloat            = ScreenSize.width / 2
-
+        
         var safeAreaTopInset: CGFloat = 20.0
         if #available(iOS 11.0, *) {
             safeAreaTopInset = self.view.safeAreaInsets.top
@@ -209,7 +213,7 @@ class MenuListViewController: BaseViewController {
         
         return retButton
     }
-
+    
     private func disableAllButtons(_ disable: Bool) {
         self.elementsViews.forEach {
             $0.isUserInteractionEnabled = !disable
@@ -258,13 +262,13 @@ class MenuListViewController: BaseViewController {
                 self.view.addSubview($0)
             }
         }
-
+        
         let startTimes = [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
         UIView.animateKeyframes(withDuration: 0.5, delay: 0.0, options: .calculationModeCubic, animations: {
             self.elementsViews.forEach { view in
                 let randomIndex = Int(arc4random_uniform(UInt32(startTimes.count)))
                 let startTime = startTimes[randomIndex]
-
+                
                 UIView.addKeyframe(withRelativeStartTime: startTime, relativeDuration: 1.0 - startTime, animations: {
                     view.frame = self.originalFrames[view.tag] ?? CGRect.zero
                 })
@@ -285,17 +289,17 @@ class MenuListViewController: BaseViewController {
     
     private func startViewsDisappearance(completion: @escaping ClosureVoid) {
         let startTimes = [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-
+        
         UIView.animateKeyframes(withDuration: 0.5, delay: 0.0, options: .calculationModeCubic, animations: {
             self.elementsViews.forEach { view in
                 var frame = view.frame
-
+                
                 if view is UIButton {
                     frame.origin.x = -frame.size.width
                 } else { // navigation bar view
                     frame.origin.x = -(view.frame.size.width - GlobalUI.NavigationBar.defaultButtonSize.width)
                 }
-
+                
                 let randomIndex = Int(arc4random_uniform(UInt32(startTimes.count)))
                 let startTime = startTimes[randomIndex]
                 UIView.addKeyframe(withRelativeStartTime: startTime, relativeDuration: 1.0 - startTime, animations: {
@@ -311,8 +315,8 @@ class MenuListViewController: BaseViewController {
     
     private func getButton(forItemType itemType: MenuItem.ItemType) -> UIButton? {
         guard let item = self.menuItems.filter({ $0.type == itemType }).first,
-              let index = self.menuItems.index(of: item) else {
-            return nil
+            let index = self.menuItems.index(of: item) else {
+                return nil
         }
         
         guard let button = self.elementsViews.filter({ $0.tag == index }).first as? UIButton else {
@@ -330,7 +334,7 @@ class MenuListViewController: BaseViewController {
         if button.tag < self.menuItems.count {
             menuItem = self.menuItems[button.tag]
         }
-
+        
         guard let item = menuItem else { return }
         self.menuViewController?.didSelect(button: button, forItem: item, onListViewController: self)
     }
@@ -339,3 +343,4 @@ class MenuListViewController: BaseViewController {
         self.menuViewController?.hide()
     }
 }
+

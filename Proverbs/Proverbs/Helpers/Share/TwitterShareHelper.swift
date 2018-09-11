@@ -20,6 +20,10 @@ class TwitterShareHelper: ContentShareHelper {
         }
     }
     
+    // MARK: - Properties
+    
+    override var serviceType: ContentShareServiceType { return .twitter }
+    
     // MARK: - Private Methods
     
     override func share(withLink link: String) {

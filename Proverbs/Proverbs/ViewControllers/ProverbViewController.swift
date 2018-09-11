@@ -28,7 +28,7 @@ class ProverbViewController: BannerViewController {
     // MARK: - IBActions
     
     @IBAction func shareButtonPushed(_ sender: Any) {
-        let shareActionSheet = ActionSheetViewController.makeShareActionSheet(withDelegate: self, proverb: self.proverb)
+        let shareActionSheet = self.makeShareActionSheet(withDelegate: self, proverb: self.proverb)
         shareActionSheet?.present(onViewController: self)
     }
     
@@ -168,22 +168,6 @@ class ProverbViewController: BannerViewController {
         if originIdentifier == currentIdentifier {
             self.updateSaveButton(toFavorite: false)
         }
-    }
-    
-}
-
-extension ProverbViewController: ContentShareHelperDelegate {
-    
-    func contentShareHelperDidShare(_ helper: ContentShareHelper) {
-        
-    }
-    
-    func contentShareHelperDidCancelShare(_ helper: ContentShareHelper) {
-        
-    }
-    
-    func contentShareHelperDidFailToShare(_ helper: ContentShareHelper, error: Error?) {
-        
     }
     
 }

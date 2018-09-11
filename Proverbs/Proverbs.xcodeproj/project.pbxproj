@@ -12,7 +12,6 @@
 		1A08BCB02080E968008F5A32 /* ProverbsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A08BCAF2080E968008F5A32 /* ProverbsStorage.swift */; };
 		1A24FFC1208E0C6700CB6D8F /* ProverbListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A24FFC0208E0C6700CB6D8F /* ProverbListTableViewCell.swift */; };
 		1A24FFC3208E12A200CB6D8F /* RemindersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A24FFC2208E12A200CB6D8F /* RemindersManager.swift */; };
-		1A24FFC8208E387E00CB6D8F /* BaseTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A24FFC7208E387E00CB6D8F /* BaseTransitionAnimation.swift */; };
 		1A2A63342094CACC00D77156 /* FFavoriteProverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A63332094CACC00D77156 /* FFavoriteProverb.swift */; };
 		1A2A633A2094CBAB00D77156 /* Proverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A63392094CBAB00D77156 /* Proverb.swift */; };
 		1A2A633C2094CBB600D77156 /* FavoriteProverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A633B2094CBB600D77156 /* FavoriteProverb.swift */; };
@@ -32,6 +31,7 @@
 		1A5B2C1D209DDE4900A6AA8C /* UIAlertController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5B2C1C209DDE4900A6AA8C /* UIAlertController+Extensions.swift */; };
 		1A6E47242086232500FB7C22 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E47232086232500FB7C22 /* MenuViewController.swift */; };
 		1A6E47262086234100FB7C22 /* MenuListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E47252086234100FB7C22 /* MenuListViewController.swift */; };
+		1A78C35A21467C0200E63B9C /* ShareToUnlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A78C35921467C0200E63B9C /* ShareToUnlock.swift */; };
 		1A863FB3209731E600A514A7 /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A863FB2209731E600A514A7 /* CGRect+Extensions.swift */; };
 		1A980C2E20AB645700696C0E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A980C2D20AB645700696C0E /* StoreKit.framework */; };
 		1AA1B13F2085FF5A00D0AEE0 /* ObliquConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1B13E2085FF5A00D0AEE0 /* ObliquConstructor.swift */; };
@@ -49,7 +49,7 @@
 		1AA9C2B7207E168300C0B557 /* ContentShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2AE207E168300C0B557 /* ContentShareHelper.swift */; };
 		1AA9C2B8207E168300C0B557 /* TwitterShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2AF207E168300C0B557 /* TwitterShareHelper.swift */; };
 		1AA9C2BA207E168300C0B557 /* FacebookShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2B1207E168300C0B557 /* FacebookShareHelper.swift */; };
-		1AA9C2BB207E168300C0B557 /* Clipboard ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2B2207E168300C0B557 /* Clipboard ShareHelper.swift */; };
+		1AA9C2BB207E168300C0B557 /* ClipboardShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2B2207E168300C0B557 /* ClipboardShareHelper.swift */; };
 		1AA9C2BF207E181B00C0B557 /* String+Etensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2BE207E181B00C0B557 /* String+Etensions.swift */; };
 		1AA9C2C6207E263900C0B557 /* ProverbsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2C5207E263900C0B557 /* ProverbsManager.swift */; };
 		1AA9C2C8207E264D00C0B557 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA9C2C7207E264D00C0B557 /* UserManager.swift */; };
@@ -61,9 +61,15 @@
 		1AB1BB5A207D1DF4001F419D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB1BB59207D1DF4001F419D /* GoogleService-Info.plist */; };
 		1AB6024720962E9500D44F61 /* NotificationsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6024620962E9500D44F61 /* NotificationsObserver.swift */; };
 		1AB89578209498F700544DD0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB89577209498F700544DD0 /* FirestoreManager.swift */; };
-		1AB8957B2094A50600544DD0 /* Payable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8957A2094A50600544DD0 /* Payable.swift */; };
+		1AB8957B2094A50600544DD0 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8957A2094A50600544DD0 /* Unlockable.swift */; };
 		1ABD6BD42082228D00D95DE9 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD6BD32082228D00D95DE9 /* UIView+Extensions.swift */; };
+		1AD146F420A7181900E33595 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD146F320A7181900E33595 /* ShareView.swift */; };
+		1AD146F620A7182500E33595 /* ShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD146F520A7182500E33595 /* ShareView.xib */; };
 		1AD311A12081017B00B8FCE6 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD311A02081017B00B8FCE6 /* ActionSheetViewController.swift */; };
+		1AD45FA821406D530093ED2E /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD45FA721406D530093ED2E /* PrivacyPolicyViewController.swift */; };
+		1AD45FAA21406D9C0093ED2E /* PrivacyPolicy.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1AD45FA921406D9C0093ED2E /* PrivacyPolicy.rtf */; };
+		1AD45FAF214087150093ED2E /* BaseTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD45FAE214087150093ED2E /* BaseTransitionAnimation.swift */; };
+		1AD45FB321408C5B0093ED2E /* BaseAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD45FB221408C5B0093ED2E /* BaseAnimationViewController.swift */; };
 		1AE38FBC208684BA00A423AE /* XibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE38FBB208684BA00A423AE /* XibView.swift */; };
 		1AE38FBE208685D900A423AE /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE38FBD208685D900A423AE /* NavigationBar.swift */; };
 		1AE38FC220868B8C00A423AE /* ProverbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE38FC120868B8C00A423AE /* ProverbViewController.swift */; };
@@ -80,7 +86,6 @@
 		1A08BCAF2080E968008F5A32 /* ProverbsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProverbsStorage.swift; sourceTree = "<group>"; };
 		1A24FFC0208E0C6700CB6D8F /* ProverbListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProverbListTableViewCell.swift; sourceTree = "<group>"; };
 		1A24FFC2208E12A200CB6D8F /* RemindersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersManager.swift; sourceTree = "<group>"; };
-		1A24FFC7208E387E00CB6D8F /* BaseTransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTransitionAnimation.swift; sourceTree = "<group>"; };
 		1A2A63332094CACC00D77156 /* FFavoriteProverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFavoriteProverb.swift; sourceTree = "<group>"; };
 		1A2A63392094CBAB00D77156 /* Proverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proverb.swift; sourceTree = "<group>"; };
 		1A2A633B2094CBB600D77156 /* FavoriteProverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProverb.swift; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 		1A5B2C1C209DDE4900A6AA8C /* UIAlertController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extensions.swift"; sourceTree = "<group>"; };
 		1A6E47232086232500FB7C22 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		1A6E47252086234100FB7C22 /* MenuListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewController.swift; sourceTree = "<group>"; };
+		1A78C35921467C0200E63B9C /* ShareToUnlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareToUnlock.swift; sourceTree = "<group>"; };
 		1A863FB2209731E600A514A7 /* CGRect+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
 		1A980C2D20AB645700696C0E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1A980C2F20AB646300696C0E /* Proverbs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Proverbs.entitlements; sourceTree = "<group>"; };
@@ -118,7 +124,7 @@
 		1AA9C2AE207E168300C0B557 /* ContentShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentShareHelper.swift; sourceTree = "<group>"; };
 		1AA9C2AF207E168300C0B557 /* TwitterShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterShareHelper.swift; sourceTree = "<group>"; };
 		1AA9C2B1207E168300C0B557 /* FacebookShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookShareHelper.swift; sourceTree = "<group>"; };
-		1AA9C2B2207E168300C0B557 /* Clipboard ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Clipboard ShareHelper.swift"; sourceTree = "<group>"; };
+		1AA9C2B2207E168300C0B557 /* ClipboardShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipboardShareHelper.swift; sourceTree = "<group>"; };
 		1AA9C2BE207E181B00C0B557 /* String+Etensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Etensions.swift"; sourceTree = "<group>"; };
 		1AA9C2C5207E263900C0B557 /* ProverbsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProverbsManager.swift; sourceTree = "<group>"; };
 		1AA9C2C7207E264D00C0B557 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -130,9 +136,15 @@
 		1AB1BB59207D1DF4001F419D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Proverbs/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1AB6024620962E9500D44F61 /* NotificationsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsObserver.swift; sourceTree = "<group>"; };
 		1AB89577209498F700544DD0 /* FirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
-		1AB8957A2094A50600544DD0 /* Payable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payable.swift; sourceTree = "<group>"; };
+		1AB8957A2094A50600544DD0 /* Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unlockable.swift; sourceTree = "<group>"; };
 		1ABD6BD32082228D00D95DE9 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		1AD146F320A7181900E33595 /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		1AD146F520A7182500E33595 /* ShareView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareView.xib; sourceTree = "<group>"; };
 		1AD311A02081017B00B8FCE6 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
+		1AD45FA721406D530093ED2E /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
+		1AD45FA921406D9C0093ED2E /* PrivacyPolicy.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = PrivacyPolicy.rtf; sourceTree = "<group>"; };
+		1AD45FAE214087150093ED2E /* BaseTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTransitionAnimation.swift; sourceTree = "<group>"; };
+		1AD45FB221408C5B0093ED2E /* BaseAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAnimationViewController.swift; sourceTree = "<group>"; };
 		1AE38FBB208684BA00A423AE /* XibView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XibView.swift; sourceTree = "<group>"; };
 		1AE38FBD208685D900A423AE /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		1AE38FC120868B8C00A423AE /* ProverbViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProverbViewController.swift; sourceTree = "<group>"; };
@@ -242,6 +254,7 @@
 		1A5057982080D0D5007F71DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1AD146F220A717F000E33595 /* ImageGenerator */,
 				1AE664A0208F62E60032F0A5 /* TableViewCells */,
 				1A6E4722208622FD00FB7C22 /* NavigationBar */,
 				1A6E4721208622EF00FB7C22 /* Oblique */,
@@ -254,8 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				1A44367F2089FEEF002F7465 /* BaseNavigationController.swift */,
-				1A24FFC7208E387E00CB6D8F /* BaseTransitionAnimation.swift */,
 				1AA9C28F207E12CD00C0B557 /* BaseViewController.swift */,
+				1AD45FB221408C5B0093ED2E /* BaseAnimationViewController.swift */,
 				1A50579E2080D52D007F71DA /* BannerViewController.swift */,
 			);
 			path = BaseGroup;
@@ -303,12 +316,14 @@
 		1AA9C28A207E126D00C0B557 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1AD45FAD214086F70093ED2E /* Animations */,
 				1A50579D2080D4FC007F71DA /* BaseGroup */,
 				1A6E4720208622DD00FB7C22 /* SideMenu */,
 				1A44367E2089FEB3002F7465 /* RandomGroup */,
 				1A4436832089FF7C002F7465 /* AllListGroup */,
 				1A24FFC4208E363700CB6D8F /* FavoritesGroup */,
 				1AA9C299207E132300C0B557 /* SettingsViewController.swift */,
+				1AD45FA721406D530093ED2E /* PrivacyPolicyViewController.swift */,
 				1AE38FC120868B8C00A423AE /* ProverbViewController.swift */,
 				1AD311A02081017B00B8FCE6 /* ActionSheetViewController.swift */,
 			);
@@ -358,7 +373,7 @@
 				1AA9C2AE207E168300C0B557 /* ContentShareHelper.swift */,
 				1AA9C2AF207E168300C0B557 /* TwitterShareHelper.swift */,
 				1AA9C2B1207E168300C0B557 /* FacebookShareHelper.swift */,
-				1AA9C2B2207E168300C0B557 /* Clipboard ShareHelper.swift */,
+				1AA9C2B2207E168300C0B557 /* ClipboardShareHelper.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -380,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				1AED396A20A4D5210063A48E /* FinalProverbs.plist */,
+				1AD45FA921406D9C0093ED2E /* PrivacyPolicy.rtf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -391,6 +407,7 @@
 				1AB89576209498F700544DD0 /* Firebase */,
 				1A24FFC2208E12A200CB6D8F /* RemindersManager.swift */,
 				1A2C7EFC2092192200276EAD /* NetworkActivityIndicatorManager.swift */,
+				1A78C35921467C0200E63B9C /* ShareToUnlock.swift */,
 				1AA9C2C5207E263900C0B557 /* ProverbsManager.swift */,
 				1A5057A02080E3C6007F71DA /* FavoriteProverbsManager.swift */,
 			);
@@ -429,10 +446,27 @@
 			isa = PBXGroup;
 			children = (
 				1A4C1B482092065300852295 /* IAPController.swift */,
-				1AB8957A2094A50600544DD0 /* Payable.swift */,
+				1AB8957A2094A50600544DD0 /* Unlockable.swift */,
 				1AA9C2C7207E264D00C0B557 /* UserManager.swift */,
 			);
 			path = UserGroup;
+			sourceTree = "<group>";
+		};
+		1AD146F220A717F000E33595 /* ImageGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				1AD146F320A7181900E33595 /* ShareView.swift */,
+				1AD146F520A7182500E33595 /* ShareView.xib */,
+			);
+			path = ImageGenerator;
+			sourceTree = "<group>";
+		};
+		1AD45FAD214086F70093ED2E /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				1AD45FAE214087150093ED2E /* BaseTransitionAnimation.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		1AE664A0208F62E60032F0A5 /* TableViewCells */ = {
@@ -474,6 +508,7 @@
 				1A0029DC207D097B00393B2F /* Frameworks */,
 				1A0029DD207D097B00393B2F /* Resources */,
 				43ADD953C4D0201909EA2F0C /* [CP] Embed Pods Frameworks */,
+				1AB1BB55207D0DEE001F419D /* Fabric */,
 				579DC1782902EA093ABC3DDF /* [CP] Copy Pods Resources */,
 				1AA9C29B207E137400C0B557 /* Warnings */,
 			);
@@ -533,8 +568,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AA9C2A1207E140700C0B557 /* LaunchScreen.storyboard in Resources */,
+				1AD146F620A7182500E33595 /* ShareView.xib in Resources */,
 				1AB1BB5A207D1DF4001F419D /* GoogleService-Info.plist in Resources */,
 				1A0029EA207D097C00393B2F /* Assets.xcassets in Resources */,
+				1AD45FAA21406D9C0093ED2E /* PrivacyPolicy.rtf in Resources */,
 				1AED396B20A4D5210063A48E /* FinalProverbs.plist in Resources */,
 				1AA9C2A2207E140700C0B557 /* Main.storyboard in Resources */,
 			);
@@ -557,6 +594,20 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXIT:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/Proverbs/\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
+		1AB1BB55207D0DEE001F419D /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" XXXX";
+		};
 		43ADD953C4D0201909EA2F0C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -574,14 +625,17 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GhostTypewriter/GhostTypewriter.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -603,14 +657,17 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GhostTypewriter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHEXColors.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -634,13 +691,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Proverbs/Pods-Proverbs-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -678,6 +733,7 @@
 				1AA9C298207E131000C0B557 /* AllProverbsViewController.swift in Sources */,
 				1A6E47242086232500FB7C22 /* MenuViewController.swift in Sources */,
 				1AA1B13F2085FF5A00D0AEE0 /* ObliquConstructor.swift in Sources */,
+				1AD45FB321408C5B0093ED2E /* BaseAnimationViewController.swift in Sources */,
 				1AA9C2CA207E269400C0B557 /* RBase.swift in Sources */,
 				1A08BCB02080E968008F5A32 /* ProverbsStorage.swift in Sources */,
 				1A2A63402094E22300D77156 /* FavoriteProverbsStorage.swift in Sources */,
@@ -706,26 +762,29 @@
 				1AA9C2CF207E26E500C0B557 /* BaseStorage.swift in Sources */,
 				1AA9C2CC207E26C700C0B557 /* RFavoriteProverb.swift in Sources */,
 				1AA9C2D2207E28D900C0B557 /* Date+Extensions.swift in Sources */,
-				1AA9C2BB207E168300C0B557 /* Clipboard ShareHelper.swift in Sources */,
+				1AA9C2BB207E168300C0B557 /* ClipboardShareHelper.swift in Sources */,
 				1AA9C2D0207E26E500C0B557 /* LocalStorage.swift in Sources */,
+				1AD146F420A7181900E33595 /* ShareView.swift in Sources */,
 				1AA9C2A8207E160400C0B557 /* Utils.swift in Sources */,
+				1A78C35A21467C0200E63B9C /* ShareToUnlock.swift in Sources */,
 				1A24FFC3208E12A200CB6D8F /* RemindersManager.swift in Sources */,
 				1AE38FBC208684BA00A423AE /* XibView.swift in Sources */,
 				1A4436822089FF4E002F7465 /* RandomProverbNavigationController.swift in Sources */,
 				1A0029E3207D097B00393B2F /* AppDelegate.swift in Sources */,
 				1AA9C2B8207E168300C0B557 /* TwitterShareHelper.swift in Sources */,
+				1AD45FA821406D530093ED2E /* PrivacyPolicyViewController.swift in Sources */,
 				1AE38FBE208685D900A423AE /* NavigationBar.swift in Sources */,
 				1AA9C2BA207E168300C0B557 /* FacebookShareHelper.swift in Sources */,
 				1AA9C289207E126600C0B557 /* RProverb.swift in Sources */,
 				1A2A633E2094CC5500D77156 /* BaseModelProtocol.swift in Sources */,
 				1AA9C2BF207E181B00C0B557 /* String+Etensions.swift in Sources */,
 				1A6E47262086234100FB7C22 /* MenuListViewController.swift in Sources */,
+				1AD45FAF214087150093ED2E /* BaseTransitionAnimation.swift in Sources */,
 				1AA9C290207E12CD00C0B557 /* BaseViewController.swift in Sources */,
-				1AB8957B2094A50600544DD0 /* Payable.swift in Sources */,
+				1AB8957B2094A50600544DD0 /* Unlockable.swift in Sources */,
 				1A5057A12080E3C6007F71DA /* FavoriteProverbsManager.swift in Sources */,
 				1AA9C2B5207E168300C0B557 /* ViewControllerConstructor.swift in Sources */,
 				1AA9C29A207E132300C0B557 /* SettingsViewController.swift in Sources */,
-				1A24FFC8208E387E00CB6D8F /* BaseTransitionAnimation.swift in Sources */,
 				1AA9C2B7207E168300C0B557 /* ContentShareHelper.swift in Sources */,
 				1A2A633C2094CBB600D77156 /* FavoriteProverb.swift in Sources */,
 			);
@@ -874,7 +933,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
@@ -883,7 +942,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.proverbs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -898,7 +957,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -906,7 +965,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.proverbs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

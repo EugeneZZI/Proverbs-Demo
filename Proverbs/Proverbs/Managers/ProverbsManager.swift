@@ -7,6 +7,7 @@
 //
 
 import UIKit
+//import FirebaseStorage
 
 class ProverbsManager: NSObject {
     
@@ -155,4 +156,177 @@ class ProverbsManager: NSObject {
         return NSDictionary(contentsOfFile: plistPath) as? ProverbsPlistDictionary
     }
     
+    // MARK: - TMP
+    /*
+    func createHTML() {
+        let allProverbs = self.getAll()
+        DLog("----> COUNT \(allProverbs.count)")
+        for proverb in allProverbs {
+            self.loadMetadataAndCreateHTML(proverb: proverb)
+        }
+    }
+
+    
+    private func loadMetadataAndCreateHTML(proverb: Proverb) {
+        // allow read, write: if request.auth != null;
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0].appending("/web")
+        DLog("----> \(documentsPath)")
+        let identifier = proverb.identifier
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("Web/ShareImages/\(identifier).jpg")
+        
+        imageRef.downloadURL { (url, error) in
+            if let error = error {
+                DLog("----> Failed to load metadata for \(proverb.identifier) error \(error)")
+            } else if let url = url {
+                DLog("---> \(url)")
+                
+                let htmlFile = Bundle.main.path(forResource: "main", ofType: "html")
+                if var htmlString = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8) {
+                    let baseURLString = "https://www.saypro.me/share/"
+                    let shareURLString = baseURLString + identifier + ".html"
+                    
+                    htmlString = htmlString.replacingOccurrences(of: "REPLACE_IMAGE", with: url.absoluteString)
+                    htmlString = htmlString.replacingOccurrences(of: "REPLACE_PROVERB", with: proverb.text)
+                    htmlString = htmlString.replacingOccurrences(of: "REPLACE_MEANING", with: proverb.meaning)
+                    htmlString = htmlString.replacingOccurrences(of: "REPLACE_URL", with: shareURLString)
+                    
+                    let htmlURL = URL(fileURLWithPath: documentsPath).appendingPathComponent("\(identifier).html")
+                    do {
+                        try (htmlString as NSString).write(to: htmlURL, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                    } catch {
+                        DLog("---> Failed")
+                    }
+                }
+            } else {
+                DLog(" ----> Failed")
+            }
+        }
+    }
+    
+    func createImages() {
+        let allProverbs = self.getAll()
+        DLog("----> COUNT \(allProverbs.count)")
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0].appending("/images")
+        
+        for proverb in allProverbs {
+            let view = ShareView(frame: CGRect(x: 0.0, y: 0.0, width: 640, height: 360))
+            view.proverbLabel.text = proverb.text
+            view.proverbLabel.sizeToFit()
+            
+            view.meaningLabel.text = proverb.meaning
+            view.meaningLabel.sizeToFit()
+            
+            view.layoutIfNeeded()
+            
+            guard let image = view.image() else {
+                DLog("---> !!! Failed to generate image!!!!")
+                continue
+            }
+            
+            guard let imageData = UIImageJPEGRepresentation(image, 0.5) else {
+                DLog("---> !!! Failed to generate JPG")
+                continue
+            }
+            
+            let path = documentsPath.appending("/\(proverb.identifier).jpg")
+            DLog("---> !!! PATH \(path)")
+            
+            do {
+                try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            } catch {
+                DLog("----> Failed write to disk")
+            }
+        }
+        
+    }
+    
+    private func update() {
+        guard let plistPath = Bundle.main.path(forResource: "FinalProverbs", ofType: "plist") else {
+            return
+        }
+        
+        var originDict = NSDictionary(contentsOfFile: plistPath) as! ProverbsPlistDictionary
+        let sections = originDict.keys
+        for section in sections {
+            let items = originDict[section]!
+            
+            for var item in items {
+                let proverb = item["text"]!
+                let meaning = item["meaning"]!
+                
+                if proverb.contains("?.") {
+                    DLog("---> PROVERB \(proverb)")
+                    item["text"] = proverb.replacingOccurrences(of: "?.", with: "?")
+                    DLog("---> PROVERB !!!! \(item["text"]!)")
+                }
+                if meaning.contains("?.") {
+                    DLog("---> MEANING \(meaning)")
+                    item["meaning"] = proverb.replacingOccurrences(of: "?.", with: "?")
+                    DLog("---> MEANING \(item["meaning"]!)")
+                }
+            }
+        }
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let newPath = documentsPath.appending("/FinalProverbs.plist")
+        DLog("---> \(newPath)")
+        (originDict as NSDictionary).write(toFile: newPath, atomically: true)
+    }
+    
+    private func migrate() {
+        guard let plistPath = Bundle.main.path(forResource: "NewList", ofType: "plist") else {
+            return
+        }
+        
+        let originDict = NSDictionary(contentsOfFile: plistPath) as! [String: [String: String]]
+        var newDict = ProverbsPlistDictionary() // [String: [[String: String]]]
+        
+        var identifiers = Array(10000...40000)
+        
+        let randomIdentifier: () -> Int = {
+            var retInt = 0
+            var index = 0
+            
+            while retInt == 0 {
+                index = Int(arc4random_uniform(UInt32(identifiers.count)))
+                retInt = identifiers[index]
+                DLog("----> \(retInt)")
+            }
+            
+            DLog("----> FINAL \(retInt)")
+            identifiers[index] = 0
+            
+            return retInt
+        }
+        
+        let sections = originDict.keys
+        for section in sections {
+            let proverbs = originDict[section]!
+            let allProverbs = proverbs.keys
+            for proverb in allProverbs {
+                var item = [String: String]()
+                item["identifier"] = String(randomIdentifier())
+                item["meaning"] = proverbs[proverb]
+                item["text"] = proverb
+                
+                
+                if var sectionList = newDict[section] {
+                    sectionList.append(item)
+                    newDict[section] = sectionList
+                } else {
+                    newDict[section] = [item]
+                }
+            }
+        }
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let newPath = documentsPath.appending("/FinalProverbs.plist")
+        DLog("---> \(newPath)")
+        (newDict as NSDictionary).write(toFile: newPath, atomically: true)
+    }
+*/
 }

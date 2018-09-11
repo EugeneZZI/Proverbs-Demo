@@ -20,6 +20,7 @@ class NavigationBar: UIView {
         case favorites  = "FavoritesProverbsViewController"
         case all        = "AllProverbsViewController"
         case settings   = "SettingsViewController"
+        case policy     = "PrivacyPolicyViewController"
         case details    = "ProverbViewController"
         
         init?(viewControllerType: UIViewController.Type) {
@@ -49,13 +50,13 @@ class NavigationBar: UIView {
         }
     }
     
+    private(set) var leftButton:     UIButton?
+    private(set) var rightButton:    UIButton?
+    private(set) var title:          UIView?
+    
     private var viewcControllerType: ViewControllerType? {
         didSet { self.updateUI() }
     }
-    
-    private var leftButton:     UIButton?
-    private var rightButton:    UIButton?
-    private var title:          UIView?
     
     // MARK: - Life Cycle Methods
     
@@ -99,19 +100,11 @@ class NavigationBar: UIView {
     }
     
     @objc private func updateForFavoritesProverbsViewController() {
-        let titleView = self.makeFavoritesTitleView()
+        let titleView = self.makeTitleView(withText: "Favorites")
         self.title = titleView
         self.addSubview(titleView)
         
-        let backButton = UIButton(type: .custom)
-        backButton.backgroundColor = .clear
-        backButton.addTarget(self, action: #selector(NavigationBar.leftButtonPushed(_:)), for: .touchUpInside)
-        backButton.setImage(UIImage(named: "BackIcon")!, for: .normal)
-        var frame = self.makeLeftButtonFrame()
-        frame.size.width = frame.size.height
-        backButton.frame = frame
-        self.leftButton = backButton
-        self.addSubview(backButton)
+        self.createAndAddBackButton()
         
         let sortButton = self.makeRightButton()
         sortButton.backgroundColor = self.rightButtonColor ?? GlobalUI.Colors.darkGrayBlue
@@ -130,6 +123,13 @@ class NavigationBar: UIView {
     
     @objc private func updateForSettingsViewController() {
         self.createAndAddMenuButton()
+    }
+    
+    @objc private func updateForPrivacyPolicyViewController() {
+        let titleView = self.makeTitleView(withText: "Privacy Policy", color: GlobalUI.Colors.grayBlue)
+        self.title = titleView
+        self.addSubview(titleView)
+        self.createAndAddBackButton()
     }
     
     @objc private func updateForProverbViewController() {
@@ -192,6 +192,19 @@ class NavigationBar: UIView {
         self.addSubview(menuButton)
     }
     
+    private func createAndAddBackButton() {
+        let backButton = UIButton(type: .custom)
+        backButton.backgroundColor = .clear
+        backButton.addTarget(self, action: #selector(NavigationBar.leftButtonPushed(_:)), for: .touchUpInside)
+        backButton.setImage(UIImage(named: "BackIcon")!, for: .normal)
+        var frame = self.makeLeftButtonFrame()
+        frame.size.width = frame.size.height
+        backButton.frame = frame
+        
+        self.leftButton = backButton
+        self.addSubview(backButton)
+    }
+    
     private func makeLeftButton() -> ObliqueButton {
         let leftButton = ObliqueButton(type: .custom)
         leftButton.frame = self.makeLeftButtonFrame()
@@ -212,18 +225,18 @@ class NavigationBar: UIView {
         return rightButton
     }
     
-    private func makeFavoritesTitleView() -> UIView {
+    private func makeTitleView(withText text: String, color: UIColor = GlobalUI.Colors.blue) -> UIView {
         var frame = self.makeLeftButtonFrame()
         frame.size.width = ScreenSize.width - self.makeRightButtonFrame().width - GlobalUI.Offsets.buttonsSide
         let view = ObliqueView(frame: frame)
         let constructor = ObliqueConstructor(withSide: .right(direction: .right))
         view.constructor = constructor
-        view.backgroundColor = GlobalUI.Colors.blue
+        view.backgroundColor = color
         
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: GlobalUI.Fonts.mainSize, weight: .medium)
         title.textColor = GlobalUI.Colors.mainFont
-        title.text = "Favorites"
+        title.text = text
         title.sizeToFit()
         frame = title.frame
         frame.origin.x = (ScreenSize.width - frame.width) / 2

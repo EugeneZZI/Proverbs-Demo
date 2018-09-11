@@ -12,14 +12,15 @@ class SettingsViewController: BaseViewController {
 
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var reminderLabel:           UILabel!
-    @IBOutlet private weak var reminderTimeLabel:       UILabel!
-    @IBOutlet private weak var reminderTimeValueLabel:  UILabel!
-    @IBOutlet private weak var versionLabel:            UILabel!
-    @IBOutlet private weak var reminderSwitcher:        UISwitch!
+    @IBOutlet fileprivate weak var reminderLabel:           UILabel!
+    @IBOutlet fileprivate weak var reminderTimeLabel:       UILabel!
+    @IBOutlet fileprivate weak var reminderTimeValueLabel:  UILabel!
+    @IBOutlet fileprivate weak var versionLabel:            UILabel!
+    @IBOutlet fileprivate weak var reminderSwitcher:        UISwitch!
     
-    @IBOutlet private weak var purchaseButton:          ObliqueButton!
-    @IBOutlet private weak var restoreButton:           ObliqueButton!
+    @IBOutlet fileprivate weak var purchaseButton:          ObliqueButton!
+    @IBOutlet fileprivate weak var restoreButton:           ObliqueButton!
+    @IBOutlet fileprivate weak var privacyPolicyButton:     UIButton!
     
     @IBOutlet private weak var datePickerHolderView:    UIView!
     @IBOutlet private weak var datePicker:              UIDatePicker!
@@ -55,6 +56,14 @@ class SettingsViewController: BaseViewController {
     
     @IBAction func restoreButtonPushed(_ sender: Any) {
         self.purchaseController.restore()
+    }
+    
+    @IBAction func privacyPolicyButtonPushed(_ sender: Any) {
+        if let vc = PrivacyPolicyViewController.create() {
+            vc.modalPresentationStyle = .custom
+            vc.modalTransitionStyle = .crossDissolve
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     @IBAction func reminderSwitcherChanged(_ sender: Any) {
@@ -140,7 +149,7 @@ class SettingsViewController: BaseViewController {
     
     private func showDisabledNotificationsAlert() {
         UIAlertController.showAlert(self,
-                                    message: "Enable notification in iOS settings fist.",
+                                    message: "Enable notifications in iOS settings first.",
                                     confirmButtonTitle: "Settings",
                                     cancelButtonTitle: "Cancel",
                                     confirmBlock: { _ in

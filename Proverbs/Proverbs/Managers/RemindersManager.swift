@@ -148,4 +148,12 @@ class RemindersManager {
         }
     }
     
+    private func printNotificationsInfo() {
+        DLog("---> PRINT NOTIFICATIONS")
+        self.notificationsCenter.getPendingNotificationRequests { (requests) in
+            for request in requests {
+                DLog("---> Time \(request.trigger.debugDescription)")
+            }
+        }
+    }
 }

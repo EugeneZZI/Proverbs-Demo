@@ -12,7 +12,7 @@ import Reachability
 import NVActivityIndicatorView
 
 class BaseViewController: UIViewController, ViewControllerConstructor, NavigationBarDelegate, NVActivityIndicatorViewable {
-
+    
     static var storyboardType: StoryboardType { return self._storyboardType }
     class var _storyboardType: StoryboardType { return .Main }
     
@@ -23,11 +23,13 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     
     // MARK: - Properties
     
-    let notificaionCenter   = NotificationCenter.default
-    let reachabilityManager = ReachabilityManager.shared
-    var isKeyboardVisible   = false
+    fileprivate var shareHelper:    ContentShareHelper?
     
-    var activityIndicator:  NVActivityIndicatorView?
+    let notificaionCenter           = NotificationCenter.default
+    let reachabilityManager         = ReachabilityManager.shared
+    var isKeyboardVisible           = false
+    
+    var activityIndicator:          NVActivityIndicatorView?
     
     var statusBarStyle: UIStatusBarStyle = .default {
         didSet {
@@ -63,7 +65,7 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
         
         self.internalNavigationBar?.viewController = self
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
@@ -116,7 +118,7 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     
     // MARK: - Keyboard methods
     
-   @objc func hideKeyboard() {
+    @objc func hideKeyboard() {
         self.view.endEditing(true)
         self.view.window?.endEditing(true)
     }
@@ -126,7 +128,7 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     }
     
     @objc func keyboardDidShow(_ notif: Notification) {
-    
+        
     }
     
     @objc func keyboardWillHide(_ notif: Notification) {
@@ -146,7 +148,7 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     @objc func reachabilityChangedNotification(_ notif: Notification) {
         self.setupViewsWithReachability(self.reachabilityManager.isReachable)
     }
-
+    
     func showNetworkErrorNotificationView() {
     }
     
@@ -212,5 +214,87 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     
     func rightbuttonPushed(_ navigationBar: NavigationBar) {
     }
-
+    
 }
+
+// MARK: Share
+extension BaseViewController: ContentShareHelperDelegate {
+    
+    func makeShareActionSheet(withDelegate viewController: ContentShareHelper.Delegate, proverb: Proverb) -> ActionSheetViewController? {
+        guard let actionSheet = ActionSheetViewController.makeWithTitle("Share via") else {
+            return nil
+        }
+        
+        let share = {
+            guard let helper = self.shareHelper else {
+                return
+            }
+            
+            helper.share()
+        }
+        
+        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: GlobalUI.Colors.facbookButton) { _ in
+            self.shareHelper = ContentShareHelper.createShareHelper(withServiceType: .facebook, proverb: proverb, delegate: viewController)
+            share()
+        }
+        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: GlobalUI.Colors.twitterButton) { _ in
+            self.shareHelper = ContentShareHelper.createShareHelper(withServiceType: .twitter, proverb: proverb, delegate: viewController)
+            share()
+        }
+        let clipboardAction = ActionSheetItem(type: .select, title: "Copy Link") { _ in
+            self.shareHelper = ContentShareHelper.createShareHelper(withServiceType: .clipboard, proverb: proverb, delegate: viewController)
+            share()
+        }
+        let cancelAction = ActionSheetItem(type: .destructive, title: "Cancel")
+        
+        actionSheet.addItem(facebookAction)
+        actionSheet.addItem(twitterAction)
+        actionSheet.addItem(clipboardAction)
+        actionSheet.addItem(cancelAction)
+        
+        return actionSheet
+    }
+    
+    func contentShareHelperDidShare(_ helper: ContentShareHelper) {
+        defer { self.shareHelper = nil }
+        if IAPController.shared.isPurchased { return }
+        
+        if helper.serviceType == .facebook || helper.serviceType == .twitter {
+            ShareToUnlock.shared.checkAndChangeCounter(completion: { (result) in
+                if !result { return }
+                if ShareToUnlock.shared.isUnlocked { self.showCongratulationAlert() }
+                else { self.showLeftDaysAlert() }
+            })
+        }
+    }
+    
+    func contentShareHelperDidCancelShare(_ helper: ContentShareHelper) {
+        self.shareHelper = nil
+    }
+    
+    func contentShareHelperDidFailToShare(_ helper: ContentShareHelper, error: Error?) {
+        DLog("Error: \(String(describing: error))")
+        self.shareHelper = nil
+    }
+    
+}
+
+// MARK: Share To Unlock Alerts
+extension BaseViewController {
+    
+    func showLeftDaysAlert() {
+        let daysLeftToUnlock = ShareToUnlock.shared.daysLeftToUnlock
+        var message = "Great! \(daysLeftToUnlock) days left to unlock the list of all Proverbs for free."
+        if daysLeftToUnlock == 1 {
+            message = "Great! \(daysLeftToUnlock) day left to unlock the list of all Proverbs for free."
+        }
+        
+        after(0.5) { UIAlertController.showAlert(message: message) }
+    }
+    
+    func showCongratulationAlert() {
+        after(0.5) { UIAlertController.showAlert(message: "Congratulations! List of all Proverbs has been unlocked!") }
+    }
+    
+}
+

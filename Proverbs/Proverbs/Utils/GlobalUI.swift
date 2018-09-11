@@ -41,7 +41,7 @@ struct GlobalUI {
         static let twitterButton    = UIColor(hexString:"3AAAE1")!
         static let googleButton     = UIColor(hexString:"EC4338")!
         
-        static let mainFont         = UIColor.white
+        static let mainFont         = UIColor.white //.withAlphaComponent(0.8)
         
         var mainColors: [UIColor] {
             return [Colors.blue, Colors.darkGrayBlue, Colors.red, Colors.grayBlue, Colors.yellow]

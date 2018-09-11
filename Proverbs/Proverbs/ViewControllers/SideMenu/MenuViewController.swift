@@ -72,8 +72,12 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
     // MARK: - MenuListViewControllerDelegate
     
     func didSelect(button: UIButton, forItem item: MenuItem, onListViewController: MenuListViewController) {
-        if !item.payedAndCanBePerformed {
-            self.showPurchaseAlert()
+        if !item.canBePerformed {
+            switch item.unlockType {
+            case .pay: self.showPurchaseAlert()
+            case .payOrShare: self.showPurchaseOrUnlockAlert()
+            default: break
+            }
             return
         }
         
@@ -162,6 +166,25 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
                                     cancelBlock: nil)
     }
     
+    private func showPurchaseOrUnlockAlert() {
+        guard let listViewController = self.sideViewController else {
+            return
+        }
+        
+        let daysLeftToUnlock = ShareToUnlock.shared.daysLeftToUnlock
+        var message = "You can share Proverbs with your friends via Facebook or Twitter for \(daysLeftToUnlock) days to unlock it for free. Or you can purchase Full Access."
+        if daysLeftToUnlock == 1 {
+            message = "You have to share Proverb one more time to unlock it for free."
+        }
+        
+        UIAlertController.showAlert(listViewController,
+                                    message: message,
+                                    confirmButtonTitle: "Purchase",
+                                    cancelButtonTitle: "Cancel",
+                                    confirmBlock: { _ in self.makePurchase() },
+                                    cancelBlock: nil)
+    }
+    
     private func makePurchase() {
         guard let listViewController = self.sideViewController else {
             return
@@ -179,4 +202,5 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         })
     }
 }
+
 

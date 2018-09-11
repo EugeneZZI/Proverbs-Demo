@@ -20,6 +20,10 @@ class FacebookShareHelper: ContentShareHelper {
         }
     }
     
+    // MARK: - Properties
+    
+    override var serviceType: ContentShareServiceType { return .facebook }
+    
     // MARK: - Private Methods
     
     override func share(withLink link: String) {

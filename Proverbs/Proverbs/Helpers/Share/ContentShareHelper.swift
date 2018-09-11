@@ -12,12 +12,14 @@ enum ContentShareServiceType {
     case facebook
     case twitter
     case clipboard
+    case undefined
     
     func title() -> String {
         switch self {
         case .facebook:             return "Facebook"
         case .twitter:              return "Twitter"
         case .clipboard:            return "Clipboard"
+        case .undefined:            return "Undefined"
         }
     }
 }
@@ -39,7 +41,7 @@ class ContentShareHelper: NSObject {
 
         if FacebookShareHelper.canShare()   { retInfo.append(.facebook) }
         if TwitterShareHelper.canShare()    { retInfo.append(.twitter) }
-        if Clipboard.canShare()             { retInfo.append(.clipboard) }
+        if ClipboardShareHelper.canShare()  { retInfo.append(.clipboard) }
 
         return retInfo
     }
@@ -48,18 +50,21 @@ class ContentShareHelper: NSObject {
         return false
     }
     
-    static func createShareHelper(withServiceType serviceType: ContentShareServiceType, proverb: Proverb, delegate: Delegate) -> ContentShareHelper {
+    static func createShareHelper(withServiceType serviceType: ContentShareServiceType, proverb: Proverb, delegate: Delegate) -> ContentShareHelper? {
         switch serviceType {
         case .facebook:     return FacebookShareHelper(withProverb: proverb, delegate: delegate)
         case .twitter:      return TwitterShareHelper(withProverb: proverb, delegate: delegate)
-        case .clipboard:    return Clipboard(withProverb: proverb, delegate: delegate)
+        case .clipboard:    return ClipboardShareHelper(withProverb: proverb, delegate: delegate)
+        default: return nil
         }
     }
     
     // MARK: - Properties
     
-    private(set) var proverb:   Proverb
-    private(set) var delegate:  Delegate
+    var serviceType: ContentShareServiceType { return .undefined }
+    
+    private(set) var proverb:       Proverb
+    private(set) var delegate:      Delegate
     
     // MARK: - Life Cycle Methods
     

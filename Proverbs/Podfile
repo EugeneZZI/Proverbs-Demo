@@ -13,6 +13,7 @@ target 'Proverbs' do
   pod 'NVActivityIndicatorView'
   pod 'MGSwipeTableCell'
   pod 'DateToolsSwift'
+  pod 'TrueTime', :git => 'https://github.com/instacart/TrueTime.swift', :commit => '8aadebabe2590d6ab295c390df5bbc109b346348'
   
   pod 'Firebase/Core'
   pod 'Firebase/Auth'

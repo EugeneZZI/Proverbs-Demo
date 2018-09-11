@@ -32,7 +32,7 @@ class XibView: UIView {
     
     fileprivate func xibSetup() {
         guard let view = self.loadViewsFromNib() else {
-            assert(false, "Failed to load view")
+            assert(false, "Failed to load view for signup alert")
             return
         }
         
