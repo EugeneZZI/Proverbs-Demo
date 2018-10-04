@@ -48,6 +48,8 @@ AppStore [link].
 **4) Configure Fabric with Crashlytics**
 - Fabric run script
  (*Build Phases for target settings*)
+ - Fabric API Key 
+  (*Project settings or Info.plist*)
  
 **5) Configure IAP**
 - Set Product ID
