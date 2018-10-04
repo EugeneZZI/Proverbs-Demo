@@ -131,7 +131,7 @@ class RemindersManager {
             let content = UNMutableNotificationContent()
             content.title = "It's time!"
             content.body = "Check proverb of the day!"
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             
             let date = self.reminderTime
             let triggerDaily = Calendar.current.dateComponents([.hour, .minute, .second,], from: date)

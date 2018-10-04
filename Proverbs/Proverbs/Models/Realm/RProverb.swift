@@ -33,6 +33,7 @@ class RProverb: Object, Proverb {
     
     var identifier:                 String          { return _identifier }
     var createdAt:                  Date            { return _createdAt }
+    var isRealm:                    Bool            { return true }
     
     var text:                       String          { return _text }
     var meaning:                    String          { return _meaning }

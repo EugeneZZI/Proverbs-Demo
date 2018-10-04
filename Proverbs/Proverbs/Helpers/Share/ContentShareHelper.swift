@@ -64,7 +64,7 @@ class ContentShareHelper: NSObject {
     var serviceType: ContentShareServiceType { return .undefined }
     
     private(set) var proverb:       Proverb
-    private(set) var delegate:      Delegate
+    private(set) weak var delegate: Delegate?
     
     // MARK: - Life Cycle Methods
     

@@ -56,20 +56,20 @@ class ObliqueButton: UIButton, ObliqueShape {
     
     // MARK: - Public Methods
     
-    override func setImage(_ image: UIImage?, for state: UIControlState) {
+    override func setImage(_ image: UIImage?, for state: UIControl.State) {
         self.savedImage = image
         super.setImage(image, for: state)
     }
     
-    func inProgress(show: Bool, animated: Bool) {
+    func inProgress(show: Bool, animated: Bool, completion: ClosureVoid? = nil) {
         if show == self.progressView { return }
         self.progressView = show
         
         var perform: ClosureVoid
-        var completion: ClosureVoid?
+        var intCompletion: ClosureVoid?
         
         if show {
-            self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+            self.activityIndicator = UIActivityIndicatorView(style: .white)
             self.activityIndicator?.frame = CGRect.makeCenter(forView: self.activityIndicator!, atView: self)
             self.activityIndicator?.alpha = 0.0
             self.activityIndicator?.startAnimating()
@@ -88,7 +88,7 @@ class ObliqueButton: UIButton, ObliqueShape {
                 self.savedImage = nil
                 self.activityIndicator?.alpha = 0.0
             }
-            completion = {
+            intCompletion = {
                 self.activityIndicator?.removeFromSuperview()
                 self.activityIndicator = nil
             }
@@ -96,11 +96,13 @@ class ObliqueButton: UIButton, ObliqueShape {
         
         if animated {
             UIView.animate(withDuration: 0.25, animations: perform, completion: { _ in
+                intCompletion?()
                 completion?()
             })
         } else {
             perform()
-            completion?()
+            intCompletion?()
+            intCompletion?()
         }
     }
     

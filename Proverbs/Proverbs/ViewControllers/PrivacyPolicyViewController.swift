@@ -48,7 +48,7 @@ class PrivacyPolicyViewController: BaseViewController {
             contentInset.top    += (self.internalNavigationBar?.bounds.height ?? 0.0) + 30.0
         }
         self.textView.contentInset = contentInset
-        self.textView.textContainerInset = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0)
+        self.textView.textContainerInset = UIEdgeInsets.init(top: 0.0, left: 20.0, bottom: 0.0, right: 20.0)
         self.updateOffset()
     }
     

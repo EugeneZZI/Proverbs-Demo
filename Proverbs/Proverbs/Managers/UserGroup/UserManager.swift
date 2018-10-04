@@ -166,13 +166,13 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        DLog("---> \(error)")
+        DLog("---> \(String(describing: error))")
     }
     
     // MARK: - GIDSignInUIDelegate
     
     func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-        DLog("---> \(error)")
+        DLog("---> \(String(describing: error))")
     }
     
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {

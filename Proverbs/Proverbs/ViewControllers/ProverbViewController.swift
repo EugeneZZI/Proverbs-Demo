@@ -42,9 +42,9 @@ class ProverbViewController: BannerViewController {
         super.leftbuttonPushed(navigationBar)
         self.navigationController?.popViewController(animated: true)
     }
-        
+    
     // MARK: - Private Methods
-
+    
     override func setupViews() {
         super.setupViews()
         
@@ -142,6 +142,8 @@ class ProverbViewController: BannerViewController {
     }
     
     @objc private func didSaveNewFavoriteProverbNotification(_ notif: Notification) {
+        if let rp = self.proverb?.realmModel(), rp.isInvalidated  { return }
+        
         guard let info = notif.userInfo,
             let originIdentifier = info[FavoriteProverbsManager.NotificationKey.OriginProverbIdentifier] as? String,
             let currentIdentifier = self.proverb?.identifier else {
@@ -158,6 +160,8 @@ class ProverbViewController: BannerViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
+        
+        if let rp = self.proverb?.realmModel(), rp.isInvalidated  { return }
         
         guard let info = notif.userInfo,
             let originIdentifier = info[FavoriteProverbsManager.NotificationKey.OriginProverbIdentifier] as? String,

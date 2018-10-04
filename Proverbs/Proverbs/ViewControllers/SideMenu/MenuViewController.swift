@@ -24,9 +24,12 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
     
     // MARK: - Properties
     
-    var isMenuVisible: Bool = false
+//    var isMenuVisible: Bool = false
+    var isMenuVisible: Bool {
+        return self.sideViewController?.isVisible == true
+    }
     var currentEmbeddedViewController: UIViewController? {
-        return self.childViewControllers.first
+        return self.children.first
     }
     
     private var sideViewController: MenuListViewController?
@@ -40,16 +43,13 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         self.sideViewController = menu
         
         menu.modalPresentationStyle = .overCurrentContext
-        self.present(menu, animated: false, completion: {
-            self.isMenuVisible = true
-        })
+        self.present(menu, animated: false, completion: nil)
     }
     
     func hide() {
         if !self.isMenuVisible { return }
         guard let menu = self.sideViewController else { return }
         menu.dismiss {
-            self.isMenuVisible = false
             self.sideViewController = nil
         }
     }
@@ -59,14 +59,14 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
             return
         }
         
-        oldViewControlelr.willMove(toParentViewController: nil)
+        oldViewControlelr.willMove(toParent: nil)
         oldViewControlelr.view.removeFromSuperview()
-        oldViewControlelr.removeFromParentViewController()
+        oldViewControlelr.removeFromParent()
         
-        self.addChildViewController(viewController)
+        self.addChild(viewController)
         viewController.view.frame = oldViewControlelr.view.frame
         self.container.addSubview(viewController.view)
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
     }
     
     // MARK: - MenuListViewControllerDelegate
@@ -98,7 +98,6 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         self.embed(viewController: newViewController)
         
         self.sideViewController?.dismiss(withCompletion: {
-            self.isMenuVisible = false
             self.sideViewController = nil
         })
     }

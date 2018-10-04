@@ -67,7 +67,7 @@ class FavoritesProverbsViewController: BannerViewController {
     
     private func setupTableView() {
         self.tableView.tableFooterView = UIView()
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = ProverbListTableViewCell.heightForRow
         
         let control = UIRefreshControl()
@@ -236,6 +236,11 @@ class FavoritesProverbsViewController: BannerViewController {
                 return
             }
             
+            if favoriteProverbs.first?.isRealm == true {
+                self.updateData()
+                return
+            }
+            
             var indexPath: IndexPath?
             
             for (index, proverb) in favoriteProverbs.enumerated() {
@@ -244,7 +249,7 @@ class FavoritesProverbsViewController: BannerViewController {
                     break
                 }
             }
-            
+
             if let indexPath = indexPath {
                 self.proverbs.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .fade)

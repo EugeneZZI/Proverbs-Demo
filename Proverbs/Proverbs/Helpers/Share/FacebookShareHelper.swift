@@ -27,24 +27,28 @@ class FacebookShareHelper: ContentShareHelper {
     // MARK: - Private Methods
     
     override func share(withLink link: String) {
+        guard let delegate = self.delegate else { return }
+        
         if #available(iOS 11.0, *) {
             let linkContent = FBSDKShareLinkContent()
             linkContent.contentURL = URL(string: link)
-            FBSDKShareDialog.show(from: self.delegate, with: linkContent, delegate: self)
+            FBSDKShareDialog.show(from: delegate, with: linkContent, delegate: self)
         } else {
             if let facebookShare = SLComposeViewController(forServiceType: SLServiceTypeFacebook), let url = URL(string: link) {
                 
                 facebookShare.add(url)
-                facebookShare.completionHandler = { (result) in
+                facebookShare.completionHandler = { [weak self] (result) in
+                    guard let self = self else { return }
                     if (result == .done) {
-                        self.delegate.contentShareHelperDidShare(self)
+                        self.delegate?.contentShareHelperDidShare(self)
                     } else {
-                        self.delegate.contentShareHelperDidCancelShare(self)
+                        self.delegate?.contentShareHelperDidCancelShare(self)
                     }
                 }
-                self.delegate.present(facebookShare, animated: true, completion: nil)
+                
+                self.delegate?.present(facebookShare, animated: true, completion: nil)
             } else {
-                self.delegate.contentShareHelperDidFailToShare(self, error: nil)
+                self.delegate?.contentShareHelperDidFailToShare(self, error: nil)
             }
         }
     }
@@ -54,15 +58,15 @@ class FacebookShareHelper: ContentShareHelper {
 extension FacebookShareHelper: FBSDKSharingDelegate {
     
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable : Any]!) {
-        self.delegate.contentShareHelperDidShare(self)
+        self.delegate?.contentShareHelperDidShare(self)
     }
     
     func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
-        self.delegate.contentShareHelperDidFailToShare(self, error: nil)
+        self.delegate?.contentShareHelperDidFailToShare(self, error: nil)
     }
     
     func sharerDidCancel(_ sharer: FBSDKSharing!) {
-        self.delegate.contentShareHelperDidCancelShare(self)
+        self.delegate?.contentShareHelperDidCancelShare(self)
     }
     
 }

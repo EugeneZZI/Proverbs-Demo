@@ -21,6 +21,7 @@ class SettingsViewController: BaseViewController {
     @IBOutlet fileprivate weak var purchaseButton:          ObliqueButton!
     @IBOutlet fileprivate weak var restoreButton:           ObliqueButton!
     @IBOutlet fileprivate weak var privacyPolicyButton:     UIButton!
+    @IBOutlet fileprivate weak var moreAppsButton:          UIButton!
     
     @IBOutlet private weak var datePickerHolderView:    UIView!
     @IBOutlet private weak var datePicker:              UIDatePicker!
@@ -63,6 +64,12 @@ class SettingsViewController: BaseViewController {
             vc.modalPresentationStyle = .custom
             vc.modalTransitionStyle = .crossDissolve
             self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func moreAppsButtonPushed(_ sender: Any) {
+        if let url = URL(string: "itms-apps://itunes.apple.com/us/developer/yevhenii-zozulia/id1347865942") {
+            UIApplication.shared.open(url)
         }
     }
     
@@ -153,7 +160,7 @@ class SettingsViewController: BaseViewController {
                                     confirmButtonTitle: "Settings",
                                     cancelButtonTitle: "Cancel",
                                     confirmBlock: { _ in
-                                        UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
         },
                                     cancelBlock: nil)
     }
@@ -170,7 +177,7 @@ class SettingsViewController: BaseViewController {
     
     private func showDatePicker(_ show: Bool, animated: Bool, completion: ClosureVoid? = nil) {
         let newConstant = show ? 0.0 : self.datePickerHolderView.frame.height
-        let options = show ? UIViewAnimationOptions.curveEaseOut : UIViewAnimationOptions.curveEaseIn
+        let options = show ? UIView.AnimationOptions.curveEaseOut : UIView.AnimationOptions.curveEaseIn
         
         self.datePickerHolderViewBottomConstraint.constant = newConstant
         

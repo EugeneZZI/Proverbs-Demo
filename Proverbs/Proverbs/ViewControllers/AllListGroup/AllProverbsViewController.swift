@@ -51,7 +51,7 @@ class AllProverbsViewController: BaseViewController {
         self.tableView.sectionHeaderHeight = GlobalUI.NavigationBar.defaultButtonSize.height
         self.tableView.sectionIndexBackgroundColor = .clear
         self.tableView.tableFooterView = UIView()
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = ProverbListTableViewCell.heightForRow
     }
     

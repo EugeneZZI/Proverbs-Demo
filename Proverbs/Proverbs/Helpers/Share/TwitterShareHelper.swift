@@ -27,30 +27,35 @@ class TwitterShareHelper: ContentShareHelper {
     // MARK: - Private Methods
     
     override func share(withLink link: String) {
+        guard let delegate = self.delegate else { return }
+        
         if #available(iOS 11.0, *) {
             let composer = TWTRComposer()
             composer.setURL(URL(string: link))
-            composer.show(from: self.delegate, completion: { (result) in
+            composer.show(from: delegate, completion: { [weak self] (result) in
+                guard let self = self else { return }
                 if (result == .done) {
-                    self.delegate.contentShareHelperDidShare(self)
+                    self.delegate?.contentShareHelperDidShare(self)
                 } else {
-                    self.delegate.contentShareHelperDidCancelShare(self)
+                    self.delegate?.contentShareHelperDidCancelShare(self)
                 }
             })
         } else {
             if let tweetShare = SLComposeViewController(forServiceType: SLServiceTypeTwitter), let url = URL(string: link) {
                 
                 tweetShare.add(url)
-                tweetShare.completionHandler = { (result) in
+                tweetShare.completionHandler = { [weak self] (result) in
+                    guard let self = self else { return }
                     if (result == .done) {
-                        self.delegate.contentShareHelperDidShare(self)
+                        self.delegate?.contentShareHelperDidShare(self)
                     } else {
-                        self.delegate.contentShareHelperDidCancelShare(self)
+                        self.delegate?.contentShareHelperDidCancelShare(self)
                     }
                 }
-                self.delegate.present(tweetShare, animated: true, completion: nil)
+                
+                self.delegate?.present(tweetShare, animated: true, completion: nil)
             } else {
-                self.delegate.contentShareHelperDidFailToShare(self, error: nil)
+                self.delegate?.contentShareHelperDidFailToShare(self, error: nil)
             }
         }
     }

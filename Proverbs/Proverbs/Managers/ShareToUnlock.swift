@@ -29,7 +29,7 @@ class ShareToUnlock: NSObject {
     
     private(set) var isUnlocked: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: DefaultsKeys.Unlock)
+            return UserDefaults.standard.bool(forKey: DefaultsKeys.Unlock) // TODO: ! Change to test unlocked with sharing version
         }
         set {
             UserDefaults.standard.set(newValue, forKey: DefaultsKeys.Unlock)

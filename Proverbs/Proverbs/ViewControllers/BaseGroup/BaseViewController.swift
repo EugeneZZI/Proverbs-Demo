@@ -103,17 +103,17 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
     }
     
     func addKeyboardNotificationsObserver() {
-        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardWillShow(_:)),    name: Notification.Name.UIKeyboardWillShow, object: nil)
-        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardDidShow(_:)),     name: Notification.Name.UIKeyboardDidShow, object: nil)
-        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardWillHide(_:)),    name: Notification.Name.UIKeyboardWillHide, object: nil)
-        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardDidHide(_:)),     name: Notification.Name.UIKeyboardDidHide, object: nil)
+        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardWillShow(_:)),    name: UIResponder.keyboardWillShowNotification, object: nil)
+        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardDidShow(_:)),     name: UIResponder.keyboardDidShowNotification, object: nil)
+        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardWillHide(_:)),    name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.notificaionCenter.addObserver(self, selector: #selector(BaseViewController.keyboardDidHide(_:)),     name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     func removeKeyboardNotificationsObserver() {
-        self.notificaionCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
-        self.notificaionCenter.removeObserver(self, name: Notification.Name.UIKeyboardDidShow, object: nil)
-        self.notificaionCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
-        self.notificaionCenter.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
+        self.notificaionCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        self.notificaionCenter.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+        self.notificaionCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.notificaionCenter.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     // MARK: - Keyboard methods

@@ -37,7 +37,7 @@ class XibView: UIView {
         }
         
         view.frame = self.bounds
-        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.addSubview(view)
         self.view = view
     }

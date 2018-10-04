@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gyg-ay-GcR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gyg-ay-GcR">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -621,7 +621,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily reminders time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8ft-dN-4D7">
-                                <rect key="frame" x="20" y="149.5" width="161" height="20.5"/>
+                                <rect key="frame" x="20" y="149" width="161" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -633,7 +633,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="qcD-Kt-Ioc">
-                                <rect key="frame" x="30" y="493" width="315" height="104"/>
+                                <rect key="frame" x="30" y="461" width="315" height="104"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLf-H7-yKV" customClass="ObliqueButton" customModule="Proverbs" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="40"/>
@@ -662,25 +662,24 @@
                                     <constraint firstAttribute="height" constant="104" id="Wfc-ux-0as"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9gW-l5-f3p">
-                                <rect key="frame" x="112" y="617" width="150" height="26"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="EDS-rE-aJx"/>
-                                </constraints>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Privacy Policy">
-                                            <attributes>
-                                                <color key="NSColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <font key="NSFont" size="12" name=".SFNSText"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                <integer key="NSUnderline" value="1"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFb-uE-lne">
+                                <rect key="frame" x="147" y="585" width="81" height="27"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                <state key="normal" title="Privacy Policy">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="privacyPolicyButtonPushed:" destination="63r-Ot-hoF" eventType="touchUpInside" id="hI9-dz-TTI"/>
+                                    <action selector="privacyPolicyButtonPushed:" destination="63r-Ot-hoF" eventType="touchUpInside" id="QbK-5p-dLE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gW-l5-f3p">
+                                <rect key="frame" x="136" y="612" width="103" height="27"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                <state key="normal" title="Check more Apps">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="moreAppsButtonPushed:" destination="63r-Ot-hoF" eventType="touchUpInside" id="EiJ-Nv-mp2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z11-HG-Gce">
@@ -727,11 +726,13 @@
                             </view>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="9gW-l5-f3p" firstAttribute="top" secondItem="CFb-uE-lne" secondAttribute="bottom" id="0bq-Qv-XTp"/>
                             <constraint firstItem="LJH-Xv-DBC" firstAttribute="trailing" secondItem="YVW-Kr-CvQ" secondAttribute="trailing" constant="20" id="6X9-Th-obP"/>
                             <constraint firstItem="bCZ-9g-v5N" firstAttribute="centerY" secondItem="IEi-dh-k1M" secondAttribute="centerY" id="6ng-Sb-maQ"/>
                             <constraint firstItem="MT3-sI-KQs" firstAttribute="bottom" secondItem="24m-gd-buY" secondAttribute="bottom" id="7Gx-Jp-OvW"/>
-                            <constraint firstItem="Z11-HG-Gce" firstAttribute="top" secondItem="9gW-l5-f3p" secondAttribute="bottom" constant="2" id="Ad6-PH-8aq"/>
+                            <constraint firstItem="Z11-HG-Gce" firstAttribute="top" secondItem="9gW-l5-f3p" secondAttribute="bottom" constant="6" id="Ad6-PH-8aq"/>
                             <constraint firstItem="LJH-Xv-DBC" firstAttribute="bottom" secondItem="Z11-HG-Gce" secondAttribute="bottom" constant="10" id="J1l-Y1-6lF"/>
+                            <constraint firstItem="CFb-uE-lne" firstAttribute="centerX" secondItem="24m-gd-buY" secondAttribute="centerX" id="Jnp-Lb-ylb"/>
                             <constraint firstItem="YVW-Kr-CvQ" firstAttribute="centerY" secondItem="8ft-dN-4D7" secondAttribute="centerY" id="Lg9-Ec-5Jz"/>
                             <constraint firstItem="LJH-Xv-DBC" firstAttribute="trailing" secondItem="qcD-Kt-Ioc" secondAttribute="trailing" constant="30" id="MzB-Tu-0q8"/>
                             <constraint firstItem="8ft-dN-4D7" firstAttribute="leading" secondItem="LJH-Xv-DBC" secondAttribute="leading" constant="20" id="P1X-Gh-v8r"/>
@@ -739,7 +740,6 @@
                             <constraint firstItem="Dlr-Qm-R1K" firstAttribute="leading" secondItem="LJH-Xv-DBC" secondAttribute="leading" id="QYp-8O-aoa"/>
                             <constraint firstItem="Z11-HG-Gce" firstAttribute="centerX" secondItem="24m-gd-buY" secondAttribute="centerX" id="Qqa-Y0-3li"/>
                             <constraint firstItem="MT3-sI-KQs" firstAttribute="leading" secondItem="LJH-Xv-DBC" secondAttribute="leading" id="RmY-4h-SgX"/>
-                            <constraint firstItem="9gW-l5-f3p" firstAttribute="top" secondItem="qcD-Kt-Ioc" secondAttribute="bottom" constant="20" id="TsG-Et-bj1"/>
                             <constraint firstItem="95v-Xi-Vlx" firstAttribute="top" secondItem="LJH-Xv-DBC" secondAttribute="top" id="YVO-zj-tDp"/>
                             <constraint firstItem="Dlr-Qm-R1K" firstAttribute="trailing" secondItem="LJH-Xv-DBC" secondAttribute="trailing" id="Yhq-ws-d64"/>
                             <constraint firstItem="MT3-sI-KQs" firstAttribute="top" secondItem="24m-gd-buY" secondAttribute="top" id="ZDV-VG-bft"/>
@@ -751,6 +751,7 @@
                             <constraint firstItem="95v-Xi-Vlx" firstAttribute="trailing" secondItem="LJH-Xv-DBC" secondAttribute="trailing" id="rhG-M6-Ycn"/>
                             <constraint firstItem="YVW-Kr-CvQ" firstAttribute="top" secondItem="bCZ-9g-v5N" secondAttribute="bottom" constant="24" id="sYr-5J-mbQ"/>
                             <constraint firstItem="9gW-l5-f3p" firstAttribute="centerX" secondItem="24m-gd-buY" secondAttribute="centerX" id="tNy-Rl-lsu"/>
+                            <constraint firstItem="CFb-uE-lne" firstAttribute="top" secondItem="qcD-Kt-Ioc" secondAttribute="bottom" constant="20" id="uoy-XX-kpx"/>
                             <constraint firstItem="bCZ-9g-v5N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IEi-dh-k1M" secondAttribute="trailing" constant="20" id="vGa-o9-c6L"/>
                             <constraint firstItem="IEi-dh-k1M" firstAttribute="leading" secondItem="LJH-Xv-DBC" secondAttribute="leading" constant="20" id="yvt-SL-q71"/>
                             <constraint firstItem="YVW-Kr-CvQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8ft-dN-4D7" secondAttribute="trailing" constant="20" id="ze9-ln-Kwf"/>
@@ -763,7 +764,8 @@
                         <outlet property="datePickerHolderView" destination="Dlr-Qm-R1K" id="vv2-V8-Acz"/>
                         <outlet property="datePickerHolderViewBottomConstraint" destination="ac3-2I-Bbi" id="7rG-jJ-OQs"/>
                         <outlet property="internalNavigationBar" destination="95v-Xi-Vlx" id="PmB-QS-0KD"/>
-                        <outlet property="privacyPolicyButton" destination="9gW-l5-f3p" id="OZQ-Sk-lPQ"/>
+                        <outlet property="moreAppsButton" destination="9gW-l5-f3p" id="7Qt-kL-Bpj"/>
+                        <outlet property="privacyPolicyButton" destination="CFb-uE-lne" id="9jV-aZ-rAo"/>
                         <outlet property="purchaseButton" destination="VLf-H7-yKV" id="Ndz-du-ege"/>
                         <outlet property="reminderLabel" destination="IEi-dh-k1M" id="75l-Lq-AP4"/>
                         <outlet property="reminderSwitcher" destination="bCZ-9g-v5N" id="lgd-7h-63t"/>

@@ -61,6 +61,7 @@ class FFavoriteProverb: FavoriteProverb {
     
     var identifier:                 String          { return _identifier }
     var createdAt:                  Date            { return _createdAt }
+    var isRealm:                    Bool            { return false }
     
     var text:                       String          { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._text ?? "" }
     var meaning:                    String          { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._meaning ?? "" }

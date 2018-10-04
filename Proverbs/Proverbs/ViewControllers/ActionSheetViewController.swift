@@ -41,6 +41,41 @@ class ActionSheetItem: Equatable {
 
 class ActionSheetViewController: BaseViewController {
     
+//    class func makeShareActionSheet(withDelegate viewController: ContentShareHelper.Delegate, proverb: Proverb) -> ActionSheetViewController? {
+//        guard let actionSheet = ActionSheetViewController.makeWithTitle("Share via") else {
+//            return nil
+//        }
+//        
+//        var shareHelper: ContentShareHelper?
+//        let share = {
+//            guard let helper = shareHelper else {
+//                return
+//            }
+//            helper.share()
+//        }
+//        
+//        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: GlobalUI.Colors.facbookButton) { _ in
+//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .facebook, proverb: proverb, delegate: viewController)
+//            share()
+//        }
+//        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: GlobalUI.Colors.twitterButton) { _ in
+//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .twitter, proverb: proverb, delegate: viewController)
+//            share()
+//        }
+//        let clipboardAction = ActionSheetItem(type: .select, title: "Copy Link") { _ in
+//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .clipboard, proverb: proverb, delegate: viewController)
+//            share()
+//        }
+//        let cancelAction = ActionSheetItem(type: .destructive, title: "Cancel")
+//        
+//        actionSheet.addItem(facebookAction)
+//        actionSheet.addItem(twitterAction)
+//        actionSheet.addItem(clipboardAction)
+//        actionSheet.addItem(cancelAction)
+//        
+//        return actionSheet
+//    }
+    
     private let TitleViewTag = 823
     
     private struct Fonts {

@@ -36,6 +36,12 @@ class RandomProverbViewController: BannerViewController {
     
     // MARK: - Life Cycle Methods
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.checkAndUpdateAddToFavoritesButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,8 +155,9 @@ class RandomProverbViewController: BannerViewController {
     
     private func checkAndSaveOrDeleteFavorite(proverb: Proverb) {
         let progressClosure = { (inProgress: Bool) in
-            self.saveButton.inProgress(show: inProgress, animated: true)
-            self.isProverbInProgress = inProgress
+            self.saveButton.inProgress(show: inProgress, animated: true) {
+                self.isProverbInProgress = inProgress
+            }
         }
         
         progressClosure(true)
@@ -161,6 +168,7 @@ class RandomProverbViewController: BannerViewController {
                     if let error = error {
                         DLog("Failed to delete from favorites. \(error)")
                         self.checkFavoriteManagerError(error)
+                        self.updateSaveButton(toFavorite: true)
                     }
                 })
             } else {
@@ -169,9 +177,11 @@ class RandomProverbViewController: BannerViewController {
                     if let error = error {
                         DLog("Failed to delete from favorites. \(error)")
                         self.checkFavoriteManagerError(error)
+                        self.updateSaveButton(toFavorite: false)
                     } else if retProverb == nil {
                         DLog("Failed to save to favorites.")
                         UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+                        self.updateSaveButton(toFavorite: false)
                     }
                 })
             }
