@@ -60,6 +60,8 @@ AppStore [link].
 
 Yevhenii(Eugene) Zozulia:
 
+[https://www.linkedin.com/in/eugenezi/]
+
 YevheniiZozulia@sezorus.com
 
 
@@ -77,3 +79,4 @@ Proverbs Demo iOS App is available under the GNU General Public License v3.0 lic
 [web site]: <https://www.saypro.me>
 [link]: <https://itunes.apple.com/us/app/saypro/id1377175139>
 [https://git-lfs.github.com]: <https://git-lfs.github.com>
+[https://www.linkedin.com/in/eugenezi/]: <https://www.linkedin.com/in/eugenezi/>
