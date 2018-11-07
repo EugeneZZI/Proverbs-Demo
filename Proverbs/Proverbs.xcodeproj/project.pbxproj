@@ -507,10 +507,9 @@
 				1A0029DB207D097B00393B2F /* Sources */,
 				1A0029DC207D097B00393B2F /* Frameworks */,
 				1A0029DD207D097B00393B2F /* Resources */,
+				1A7DD9EF2193145C00302D90 /* Fabric */,
 				43ADD953C4D0201909EA2F0C /* [CP] Embed Pods Frameworks */,
-				1AB1BB55207D0DEE001F419D /* Fabric */,
 				579DC1782902EA093ABC3DDF /* [CP] Copy Pods Resources */,
-				1AA9C29B207E137400C0B557 /* Warnings */,
 			);
 			buildRules = (
 			);
@@ -581,28 +580,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1AA9C29B207E137400C0B557 /* Warnings */ = {
+		1A7DD9EF2193145C00302D90 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = Warnings;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXIT:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/Proverbs/\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		1AB1BB55207D0DEE001F419D /* Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
 			name = Fabric;
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

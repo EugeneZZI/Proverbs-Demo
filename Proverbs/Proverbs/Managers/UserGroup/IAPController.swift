@@ -24,7 +24,8 @@ class IAPController: NSObject {
     
     private(set) var isPurchased: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: IAPController.PurchaseKey) // TODO: ! Change to test paid version
+            #warning("Change to test paid version")
+            return UserDefaults.standard.bool(forKey: IAPController.PurchaseKey)
         }
         set {
             UserDefaults.standard.set(newValue, forKey: IAPController.PurchaseKey)
