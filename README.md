@@ -1,8 +1,6 @@
 # Proverbs Demo iOS Application
 
 ## Info
-Use git lfs for the repository: [https://git-lfs.github.com].
-
 Service [web site].
 
 AppStore [link].
