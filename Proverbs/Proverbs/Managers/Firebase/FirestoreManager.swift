@@ -31,7 +31,6 @@ class FirestoreManager: NSObject {
     private lazy var fireStore: Firestore = {
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = true
-        settings.areTimestampsInSnapshotsEnabled = true
         let db = Firestore.firestore()
         db.settings = settings
         

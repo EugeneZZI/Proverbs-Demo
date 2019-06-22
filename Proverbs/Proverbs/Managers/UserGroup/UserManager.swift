@@ -106,8 +106,8 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
         switch option {
         case .facebook:
             self.facebookSignIn(withViewController: viewController, completion: { (info, error) in
-                if let _ = info {
-                    authCredentials = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                if let _ = info, let token = AccessToken.current?.tokenString {
+                    authCredentials = FacebookAuthProvider.credential(withAccessToken: token)
                 }
                 internalCompletion()
             })
@@ -215,7 +215,7 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
     // MARK: SignIn Methods
     
     private func facebookSignIn(withViewController viewController: UIViewController, completion: @escaping UserManager.CompletionClosure.Facebook) {
-        FBSDKLoginManager().logIn(withReadPermissions: ["public_profile", "email"], from: viewController) { (result, error) in
+        LoginManager().logIn(permissions: ["public_profile", "email"], from: viewController) { (result, error) in
             if let error = error {
                 DLog("Failed to login with facebook. Error \(error)")
                 completion(nil, error)
@@ -223,11 +223,7 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
                 if result.isCancelled {
                     completion(nil, nil)
                 } else {
-                    guard let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, email, first_name, last_name"]) else {
-                        completion(nil, nil)
-                        return
-                    }
-                    
+                    let request = GraphRequest(graphPath: "me", parameters: ["fields": "id, email, first_name, last_name"])
                     request.start(completionHandler: { (connection, result, error) in
                         if let error = error {
                             DLog("Failed t fetch facebook data. Error \(error)")
@@ -268,7 +264,7 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
     }
     
     private func firebaseAuth(withCredentials credentials: AuthCredential, completion: @escaping ClosureBool) {
-        Auth.auth().signInAndRetrieveData(with: credentials) { (user, error) in
+        Auth.auth().signIn(with: credentials) { (user, error) in
             if let error = error {
                 DLog("Failed to auth with Farebase \(error)")
                 completion(false)

@@ -200,17 +200,37 @@ class RandomProverbViewController: BannerViewController {
     }
     
     private func showPurchaseAlert() {
-        UIAlertController.showAlert(self,
-                                    message: "Maximum \(FavoriteProverbsManager.freeMaxCount) favorite proverbs allowed in free version. You can purchase Full Access to unlock all features and remove Ads. Or remove old from the list to add new one.",
-                                    confirmButtonTitle: "Purchase",
-                                    cancelButtonTitle: "Cancel",
-                                    confirmBlock: { _ in self.makePurchase() },
-                                    cancelBlock: nil)
+        let alert = UIAlertController(title: title, message: "Maximum \(FavoriteProverbsManager.freeMaxCount) favorite proverbs allowed in free version. You can purchase Full Access to unlock all features and remove Ads. Or remove old from the list to add new one.", preferredStyle: .alert)
+        
+        let purchaseAction = UIAlertAction(title: "Purchase", style: .default, handler: { (action) in
+            self.makePurchase()
+        })
+        
+        let restoreAction = UIAlertAction(title: "Restore Purchases", style: .default, handler: { (action) in
+            self.restorePurchases()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+        })
+        
+        alert.addAction(purchaseAction)
+        alert.addAction(restoreAction)
+        alert.addAction(cancelAction)
+        alert.preferredAction = purchaseAction
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func makePurchase() {
         self.activityIndicator(show: true, blockView: true)
         IAPController.shared.purchase { _ in
+            self.activityIndicator(show: false)
+        }
+    }
+    
+    private func restorePurchases() {
+        self.activityIndicator(show: true, blockView: true)
+        IAPController.shared.restore { _ in
             self.activityIndicator(show: false)
         }
     }

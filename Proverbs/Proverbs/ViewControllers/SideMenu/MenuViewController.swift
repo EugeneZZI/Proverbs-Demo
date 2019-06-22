@@ -157,12 +157,8 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
             return
         }
         
-        UIAlertController.showAlert(listViewController,
-                                    message: "You can purchase Full Access to enable all features and remove Ads.",
-                                    confirmButtonTitle: "Purchase",
-                                    cancelButtonTitle: "Cancel",
-                                    confirmBlock: { _ in self.makePurchase() },
-                                    cancelBlock: nil)
+        self.showPurchaseAlert(onViewController: listViewController,
+                               withMessage: "You can purchase or restore Full Access to enable all features and remove Ads.")
     }
     
     private func showPurchaseOrUnlockAlert() {
@@ -171,17 +167,35 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         }
         
         let daysLeftToUnlock = ShareToUnlock.shared.daysLeftToUnlock
-        var message = "You can share Proverbs with your friends via Facebook or Twitter for \(daysLeftToUnlock) days to unlock it for free. Or you can purchase Full Access."
+        var message = "You can share Proverbs with your friends via Facebook or Twitter for \(daysLeftToUnlock) days to unlock it for free. Or you can purchase or restore Full Access."
         if daysLeftToUnlock == 1 {
             message = "You have to share Proverb one more time to unlock it for free."
         }
         
-        UIAlertController.showAlert(listViewController,
-                                    message: message,
-                                    confirmButtonTitle: "Purchase",
-                                    cancelButtonTitle: "Cancel",
-                                    confirmBlock: { _ in self.makePurchase() },
-                                    cancelBlock: nil)
+        self.showPurchaseAlert(onViewController: listViewController,
+                               withMessage: message)
+    }
+    
+    private func showPurchaseAlert(onViewController viewController: UIViewController, withMessage message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let purchaseAction = UIAlertAction(title: "Purchase", style: .default, handler: { (action) in
+            self.makePurchase()
+        })
+
+        let restoreAction = UIAlertAction(title: "Restore Purchases", style: .default, handler: { (action) in
+            self.restorePurchases()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+        })
+        
+        alert.addAction(purchaseAction)
+        alert.addAction(restoreAction)
+        alert.addAction(cancelAction)
+        alert.preferredAction = purchaseAction
+        
+        viewController.present(alert, animated: true, completion: nil)
     }
     
     private func makePurchase() {
@@ -191,6 +205,17 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         
         listViewController.activityIndicator(show: true, blockView: true)
         IAPController.shared.purchase { _ in
+            listViewController.activityIndicator(show: false)
+        }
+    }
+    
+    private func restorePurchases() {
+        guard let listViewController = self.sideViewController else {
+            return
+        }
+        
+        listViewController.activityIndicator(show: true, blockView: true)
+        IAPController.shared.restore { _ in
             listViewController.activityIndicator(show: false)
         }
     }

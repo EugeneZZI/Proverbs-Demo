@@ -315,7 +315,7 @@ class MenuListViewController: BaseViewController {
     
     private func getButton(forItemType itemType: MenuItem.ItemType) -> UIButton? {
         guard let item = self.menuItems.filter({ $0.type == itemType }).first,
-            let index = self.menuItems.index(of: item) else {
+            let index = self.menuItems.firstIndex(of: item) else {
                 return nil
         }
         

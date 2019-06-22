@@ -30,9 +30,10 @@ class FacebookShareHelper: ContentShareHelper {
         guard let delegate = self.delegate else { return }
         
         if #available(iOS 11.0, *) {
-            let linkContent = FBSDKShareLinkContent()
-            linkContent.contentURL = URL(string: link)
-            FBSDKShareDialog.show(from: delegate, with: linkContent, delegate: self)
+            let linkContent = ShareLinkContent()
+            linkContent.contentURL = URL(string: link)!
+            let dialog = ShareDialog(fromViewController: delegate, content: linkContent, delegate: self)
+            dialog.show()
         } else {
             if let facebookShare = SLComposeViewController(forServiceType: SLServiceTypeFacebook), let url = URL(string: link) {
                 
@@ -55,17 +56,17 @@ class FacebookShareHelper: ContentShareHelper {
     
 }
 
-extension FacebookShareHelper: FBSDKSharingDelegate {
-    
-    func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable : Any]!) {
+extension FacebookShareHelper: SharingDelegate {
+
+    func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
         self.delegate?.contentShareHelperDidShare(self)
     }
     
-    func sharer(_ sharer: FBSDKSharing!, didFailWithError error: Error!) {
+    func sharer(_ sharer: Sharing, didFailWithError error: Error) {
         self.delegate?.contentShareHelperDidFailToShare(self, error: nil)
     }
     
-    func sharerDidCancel(_ sharer: FBSDKSharing!) {
+    func sharerDidCancel(_ sharer: Sharing) {
         self.delegate?.contentShareHelperDidCancelShare(self)
     }
     

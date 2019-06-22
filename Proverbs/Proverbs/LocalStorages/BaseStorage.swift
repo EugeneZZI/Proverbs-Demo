@@ -84,7 +84,7 @@ class BaseStorage {
     
     func realmAddOrUpdate<T: Object>(_ objects: [T], realm: Realm? = nil) -> (objects: [T]?, error: NSError?) {
         let error = self.realmWrite(realm, processBlock: { (realm) in
-            realm?.add(objects, update: true)
+            realm?.add(objects, update: .all)
         })
         
         return error == nil ? (objects, nil) : (nil, error)

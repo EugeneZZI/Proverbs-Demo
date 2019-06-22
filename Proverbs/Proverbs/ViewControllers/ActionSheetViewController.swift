@@ -352,7 +352,7 @@ class ActionSheetViewController: BaseViewController {
     }
     
     private func getButton(forItem item: ActionSheetItem) -> UIButton? {
-        if let index = self.actionItems.index(of: item) {
+        if let index = self.actionItems.firstIndex(of: item) {
             return self.elementsViews.filter({ $0.tag == index }).first as? UIButton
         }
         
