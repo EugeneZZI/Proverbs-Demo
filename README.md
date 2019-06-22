@@ -27,7 +27,7 @@ AppStore [link].
 - URL Scheme
  (*Project settings or Info.plist*)
 - AdMob App ID
- (*AppDelegate.swift*)
+ (*Info.plist*)
 - AdMob banners IDs
  (*BannerViewController.swift*)
 
@@ -76,5 +76,4 @@ Proverbs Demo iOS App is available under the GNU General Public License v3.0 lic
 
 [web site]: <https://www.saypro.me>
 [link]: <https://itunes.apple.com/us/app/saypro/id1377175139>
-[https://git-lfs.github.com]: <https://git-lfs.github.com>
 [https://www.linkedin.com/in/eugenezi/]: <https://www.linkedin.com/in/eugenezi/>
