@@ -24,7 +24,6 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
     
     // MARK: - Properties
     
-//    var isMenuVisible: Bool = false
     var isMenuVisible: Bool {
         return self.sideViewController?.isVisible == true
     }
@@ -133,13 +132,13 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
         }
         
         let actionSheet = ActionSheetViewController.makeWithTitle("Sign In with")
-        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: GlobalUI.Colors.facbookButton) { _ in
+        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: UIColor.appFacebookButton) { _ in
             UserManager.shared.signIn(onViewController: menuViewController, withOption: .facebook, completion: signInCompletion)
         }
-        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: GlobalUI.Colors.twitterButton) { _ in
+        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: UIColor.appTwitterButton) { _ in
             UserManager.shared.signIn(onViewController: menuViewController, withOption: .twitter, completion: signInCompletion)
         }
-        let googleAction = ActionSheetItem(type: .select, title: "Google", color: GlobalUI.Colors.googleButton) { _ in
+        let googleAction = ActionSheetItem(type: .select, title: "Google", color: UIColor.appGoogleButton) { _ in
             UserManager.shared.signIn(onViewController: menuViewController, withOption: .google, completion: signInCompletion)
         }
         let cancelAction = ActionSheetItem(type: .destructive, title: "Cancel")

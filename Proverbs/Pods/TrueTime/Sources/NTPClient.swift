@@ -7,7 +7,6 @@
 //
 
 import CTrueTime
-import Result
 
 struct NTPConfig {
     let timeout: TimeInterval
@@ -24,11 +23,12 @@ final class NTPClient {
         self.config = config
     }
 
-    func start(pools poolURLs: [URL]) {
-        precondition(!poolURLs.isEmpty, "Must include at least one pool URL")
+    func start(pool: [String], port: Int) {
+        precondition(!pool.isEmpty, "Must include at least one pool URL")
         queue.async {
             precondition(self.reachability.callback == nil, "Already started")
-            self.poolURLs = poolURLs
+            self.pool = pool
+            self.port = port
             self.reachability.callbackQueue = self.queue
             self.reachability.callback = self.updateReachability
             self.reachability.startMonitoring()
@@ -40,6 +40,7 @@ final class NTPClient {
         queue.async {
             self.cancelTimer()
             self.reachability.stopMonitoring()
+            self.reachability.callback = nil
             self.stopQueue()
         }
     }
@@ -80,16 +81,17 @@ final class NTPClient {
     }
 
     var logger: LogCallback? = defaultLogger
-    fileprivate let queue = DispatchQueue(label: "com.instacart.ntp.client")
-    fileprivate let reachability = Reachability()
-    fileprivate var completionCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
-    fileprivate var connections: [NTPConnection] = []
-    fileprivate var finished: Bool = false
-    fileprivate var invalidated: Bool = false
-    fileprivate var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
-    fileprivate var startTime: TimeInterval?
-    fileprivate var timer: DispatchSourceTimer?
-    fileprivate var poolURLs: [URL] = [] {
+    private let queue = DispatchQueue(label: "com.instacart.ntp.client")
+    private let reachability = Reachability()
+    private var completionCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
+    private var connections: [NTPConnection] = []
+    private var finished: Bool = false
+    private var invalidated: Bool = false
+    private var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
+    private var startTime: TimeInterval?
+    private var timer: DispatchSourceTimer?
+    private var port: Int = 123
+    private var pool: [String] = [] {
         didSet { invalidate() }
     }
 }
@@ -98,22 +100,21 @@ private extension NTPClient {
     var started: Bool { return startTime != nil }
     func updateReachability(status: ReachabilityStatus) {
         switch status {
-            case .notReachable:
-                debugLog("Network unreachable")
-                cancelTimer()
-                finish(.failure(NSError(trueTimeError: .offline)))
-            case .reachableViaWWAN, .reachableViaWiFi:
-                debugLog("Network reachable")
-                startTimer()
-                startQueue(poolURLs: poolURLs)
+        case .notReachable:
+            debugLog("Network unreachable")
+            cancelTimer()
+            finish(.failure(NSError(trueTimeError: .offline)))
+        case .reachableViaWWAN, .reachableViaWiFi:
+            debugLog("Network reachable")
+            startTimer()
+            startPool(pool: pool, port: port)
         }
     }
 
     func startTimer() {
         cancelTimer()
         if let referenceTime = referenceTime {
-            let remainingInterval = max(0, config.pollInterval -
-                                           referenceTime.underlyingValue.uptimeInterval)
+            let remainingInterval = max(0, config.pollInterval - referenceTime.underlyingValue.uptimeInterval)
             timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
             timer?.setEventHandler(handler: invalidate)
             timer?.schedule(deadline: .now() + remainingInterval)
@@ -126,32 +127,30 @@ private extension NTPClient {
         timer = nil
     }
 
-    func startQueue(poolURLs: [URL]) {
+    func startPool(pool: [String], port: Int) {
         guard !started && !finished else {
             debugLog("Already \(started ? "started" : "finished")")
             return
         }
 
         startTime = CFAbsoluteTimeGetCurrent()
-        debugLog("Resolving pool: \(poolURLs)")
-        HostResolver.resolve(urls: poolURLs,
+        debugLog("Resolving pool: \(pool)")
+        HostResolver.resolve(hosts: pool.map { ($0, port) },
                              timeout: config.timeout,
                              logger: logger,
-                             callbackQueue: queue) { host, result in
+                             callbackQueue: queue) { resolver, result in
             guard self.started && !self.finished else {
-                self.debugLog("Got DNS response after queue stopped: \(host), \(result)")
+                self.debugLog("Got DNS response after queue stopped: \(resolver), \(result)")
                 return
             }
-            guard poolURLs == self.poolURLs else {
-                self.debugLog("Got DNS response after pool URLs changed: \(host), \(result)")
+            guard pool == self.pool, port == self.port else {
+                self.debugLog("Got DNS response after pool URLs changed: \(resolver), \(result)")
                 return
             }
 
             switch result {
-                case let .success(addresses):
-                    self.query(addresses: addresses, pool: host.url)
-                case let .failure(error):
-                    self.finish(.failure(error))
+            case let .success(addresses): self.query(addresses: addresses, host: resolver.host)
+            case let .failure(error): self.finish(.failure(error))
             }
         }
     }
@@ -167,13 +166,13 @@ private extension NTPClient {
         stopQueue()
         finished = false
         if let referenceTime = referenceTime,
-               reachability.status != .notReachable && !poolURLs.isEmpty {
+               reachability.status != .notReachable && !pool.isEmpty {
             debugLog("Invalidated time \(referenceTime.debugDescription)")
-            startQueue(poolURLs: poolURLs)
+            startPool(pool: pool, port: port)
         }
     }
 
-    func query(addresses: [SocketAddress], pool: URL) {
+    func query(addresses: [SocketAddress], host: String) {
         var results: [String: [FrozenNetworkTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
@@ -192,14 +191,12 @@ private extension NTPClient {
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
             let times = responses.map { results in
-                results.map { $0.value }.flatMap { $0 }
+                results.compactMap { try? $0.get() }
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
             if let time = bestTime(fromResponses: times) {
-                let time = FrozenNetworkTime(networkTime: time,
-                                             sampleSize: sampleSize,
-                                             pool: pool)
+                let time = FrozenNetworkTime(networkTime: time, sampleSize: sampleSize, host: host)
                 self.debugLog("\(atEnd ? "Final" : "Best") time: \(time), " +
                               "δ: \(time.serverResponse.delay), " +
                               "θ: \(time.serverResponse.offset)")
@@ -217,7 +214,14 @@ private extension NTPClient {
                     self.updateProgress(.success(referenceTime))
                 }
             } else if atEnd {
-                self.finish(.failure(result.error ?? NSError(trueTimeError: .noValidPacket)))
+                let error: NSError
+                if case let .failure(failure) = result {
+                    error = failure as NSError
+                } else {
+                    error = NSError(trueTimeError: .noValidPacket)
+                }
+
+                self.finish(ReferenceTimeResult.failure(error))
             }
         }
     }
@@ -248,7 +252,7 @@ private extension NTPClient {
         }
         completionCallbacks = []
         logDuration(endTime, to: "get last result")
-        finished = result.value != nil
+        finished = (try? result.get()) != nil
         stopQueue()
         startTimer()
     }

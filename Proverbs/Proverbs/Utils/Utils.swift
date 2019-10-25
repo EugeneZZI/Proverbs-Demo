@@ -6,16 +6,14 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 let BundleID = Bundle.main.bundleIdentifier
 
-
 typealias ClosureVoid   = () -> ()
 typealias ClosureText   = (String?) -> ()
 typealias ClosureBool   = (Bool) -> Void
-typealias ClosureError  = (NSError?) -> Void
+typealias ClosureError  = (Error?) -> Void
 
 #if targetEnvironment(simulator)
 let IsSimulator = true
@@ -119,4 +117,8 @@ class App {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     }
     
+}
+
+class UndefinedError: LocalizedError {
+    var errorDescription: String? = "Undefined Error"
 }

@@ -6,15 +6,15 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import SwiftyStoreKit
 
-class IAPController: NSObject {
+class IAPController {
 
     static let shared = IAPController()
     
     private static let PurchaseKey          = "IAPController.isPurchased.key"
-    private static let ProductIdentifier    = "com.demo.EnglishProverbsAndSayings.XXXX"
+    private static let ProductIdentifier    = "demo.EnglishProverbsAndSayings.fullaccess"
     
     struct NotificationName {
         static let DidPurchase  = "IAPController.DidPurchase"
@@ -24,6 +24,7 @@ class IAPController: NSObject {
     
     private(set) var isPurchased: Bool {
         get {
+            #warning("Change to test paid version")
             return UserDefaults.standard.bool(forKey: IAPController.PurchaseKey)
         }
         set {
@@ -37,9 +38,7 @@ class IAPController: NSObject {
     
     // MARK: - Life Cycle Methods
     
-    private override init() {
-        super.init()
-    }
+    private init() {}
     
     // MARK: - Public Methods
     

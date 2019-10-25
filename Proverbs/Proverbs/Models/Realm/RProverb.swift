@@ -6,7 +6,7 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import RealmSwift
 
 class RProverb: Object, Proverb {

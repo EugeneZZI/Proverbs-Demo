@@ -6,10 +6,9 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
 import TrueTime
 
-class ShareToUnlock: NSObject {
+class ShareToUnlock {
     
     static let shared = ShareToUnlock()
     
@@ -29,6 +28,7 @@ class ShareToUnlock: NSObject {
     
     private(set) var isUnlocked: Bool {
         get {
+            #warning("Change to test unlocked with sharing version")
             return UserDefaults.standard.bool(forKey: DefaultsKeys.Unlock)
         }
         set {
@@ -66,9 +66,7 @@ class ShareToUnlock: NSObject {
     
     // MARK: - Life Cycle Methods
     
-    private override init() {
-        super.init()
-        
+    private init() {
         if !self.isUnlocked {
             TrueTimeClient.sharedInstance.start()
         }

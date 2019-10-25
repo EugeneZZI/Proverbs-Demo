@@ -61,13 +61,13 @@ class ProverbViewController: BannerViewController {
     }
     
     private func setupButtons() {
-        let shareConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .left))
+        let shareConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .right))
         self.shareButton.constructor = shareConstructor
-        self.shareButton.backgroundColor = GlobalUI.Colors.blue
+        self.shareButton.backgroundColor = UIColor.appBlue
         
-        let saveConstructor = ObliqueConstructor(withSide: .both(leftDirection: .left, rightDirection: .right))
+        let saveConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .right))
         self.saveDeleteButton.constructor = saveConstructor
-        self.saveDeleteButton.backgroundColor = GlobalUI.Colors.red
+        self.saveDeleteButton.backgroundColor = UIColor.appRed
     }
 
     private func checkAndUpdateAddToFavoritesButton() {
@@ -99,30 +99,34 @@ class ProverbViewController: BannerViewController {
                         DLog("Failed to delete from favorites. \(error)")
                         self.checkFavoriteManagerError(error)
                     }
+                    self.checkAndUpdateAddToFavoritesButton()
                 })
             } else {
-                self.favoritesManager.save(proverb: proverb, completion: { (retProverb, error) in
+                self.favoritesManager.save(proverb: proverb, completion: { result in
                     progressClosure(false)
-                    if let error = error {
-                        DLog("Failed to delete from favorites. \(error)")
+                    switch result {
+                    case .failure(let error):
+                        DLog("Failed to save proverb to favorites \(error)")
                         self.checkFavoriteManagerError(error)
-                    } else if retProverb == nil {
-                        DLog("Failed to save to favorites.")
-                        UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+                    default: break
                     }
+                    self.checkAndUpdateAddToFavoritesButton()
                 })
             }
         }
     }
     
     private func checkFavoriteManagerError(_ error: Error) {
-        let error = error as NSError
-        switch error.code {
-        case FavoriteProverbsManager.ErrorInfo.Code.Internal:
+        guard let managerError = error as? FavoriteProverbsManagerError else {
             UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
-        case FavoriteProverbsManager.ErrorInfo.Code.MaxLimit:
-            UIAlertController.showAlert(withTitle: "Error", message: "You reached maximum limit. Unlock all features or delete some old favorite proverbs first.")
-        default: break
+            return
+        }
+        
+        switch managerError {
+        case .maxLimit(let limit):
+            UIAlertController.showAlert(withTitle: "Error", message: "You reached maximum limit of \(limit). Unlock all features or delete some old favorite proverbs first.")
+        default:
+            UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
         }
     }
     

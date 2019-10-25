@@ -17,7 +17,7 @@ class BaseStorage {
         var retRealm: Realm?
         do {
             try retRealm = Realm()
-        } catch let error as NSError {
+        } catch let error {
             DLog("Failed to init Realm \(error)")
         }
         return retRealm
@@ -65,13 +65,13 @@ class BaseStorage {
     
     // MARK: - Public Methods
     
-    func realmWrite(_ realm: Realm? = nil, processBlock: BaseStorage.ProcessClosure) -> NSError? {
+    func realmWrite(_ realm: Realm? = nil, processBlock: BaseStorage.ProcessClosure) -> Error? {
         let writeRealm = realm ?? self.currentThreadRealm
-        var retError: NSError?
+        var retError: Error?
         
         do {
             try writeRealm?.write({ processBlock(writeRealm) })
-        } catch let error as NSError {
+        } catch let error {
             retError = error
         }
         
@@ -82,7 +82,7 @@ class BaseStorage {
         return self.currentThreadRealm?.objects(type)
     }
     
-    func realmAddOrUpdate<T: Object>(_ objects: [T], realm: Realm? = nil) -> (objects: [T]?, error: NSError?) {
+    func realmAddOrUpdate<T: Object>(_ objects: [T], realm: Realm? = nil) -> (objects: [T]?, error: Error?) {
         let error = self.realmWrite(realm, processBlock: { (realm) in
             realm?.add(objects, update: .all)
         })
@@ -90,7 +90,7 @@ class BaseStorage {
         return error == nil ? (objects, nil) : (nil, error)
     }
     
-    func realmDelete(_ objects: [Object]) -> NSError? {
+    func realmDelete(_ objects: [Object]) -> Error? {
         let error = self.realmWrite(processBlock: { (realm) in
             realm?.delete(objects)
         })
@@ -98,7 +98,7 @@ class BaseStorage {
         return error
     }
     
-    func realmDeleteAll<T: Object>(_ type: T.Type) -> NSError? {
+    func realmDeleteAll<T: Object>(_ type: T.Type) -> Error? {
         guard let results = self.realmFindAll(type) else {
             DLog("Did not find any objects with type \(type)")
             return nil

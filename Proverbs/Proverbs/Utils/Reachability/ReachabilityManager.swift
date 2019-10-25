@@ -6,12 +6,10 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-
-import UIKit
 import CoreTelephony
 import Reachability
 
-final class ReachabilityManager: NSObject {
+final class ReachabilityManager {
     
     static let shared = ReachabilityManager()
     
@@ -19,29 +17,29 @@ final class ReachabilityManager: NSObject {
     
     fileprivate(set) var reachability: Reachability?
     var isReachable: Bool {
-        if let r = self.reachability { return r.connection != .none }
+        if let r = self.reachability { return r.connection != .unavailable }
         return false
     }
     
-    // MARK: Public Methods
-    
-    private override init() {
-        super.init()
+    // MARK: Life Cycle Methods
 
-        if let r = Reachability() {
-            self.reachability = r
-        } else {
+    private init() {
+        do {
+            try self.reachability = Reachability()
+        } catch {
             DLog("Failed to create reachability")
+            return
         }
         
         self.startNotifier()
-        
         after(1.0) { self.addNotificationsObserver() }
     }
     
     deinit {
         self.removeNotificationsObserver()
     }
+    
+    // MARK: Public Methods
     
     func isQuickConnection() -> Bool {
         guard let r = self.reachability else { return false }
@@ -100,7 +98,7 @@ final class ReachabilityManager: NSObject {
     fileprivate func startNotifier() {
         do {
             try self.reachability?.startNotifier()
-        } catch let error as NSError {
+        } catch let error {
             DLog("Failed to start reachability notifier error \(error)")
         }
     }

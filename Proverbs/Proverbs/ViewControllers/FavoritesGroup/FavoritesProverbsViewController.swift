@@ -145,14 +145,18 @@ class FavoritesProverbsViewController: BannerViewController {
     }
     
     private func updateData(withCompletion completion: ClosureVoid? = nil) {
-        self.proverbsManager.getAll(withCompletion: { (newList, error) in
-            if let proverbs = newList {
+        self.proverbsManager.getAll {
+            switch $0 {
+            case .success(let proverbs):
                 self.proverbs = proverbs
+            case .failure(let error):
+                DLog("Error \(error)")
+                break
             }
-            
+
             self.updateListOrderAndReload()
             completion?()
-        })
+        }
     }
     
     private func updateListOrderAndReload() {
@@ -203,12 +207,16 @@ class FavoritesProverbsViewController: BannerViewController {
     }
     
     private func checkFavoriteManagerError(_ error: Error) -> Bool {
-        let error = error as NSError
-        switch error.code {
-        case FavoriteProverbsManager.ErrorInfo.Code.Internal:
+        guard let managerError = error as? FavoriteProverbsManagerError else {
+            return true
+        }
+        
+        switch managerError {
+        case .undefined:
             UIAlertController.showAlert(withTitle: "Error", message: "Failed to delete proverb from favorites")
             return false
-        default: return true
+        default:
+            return true
         }
     }
     
@@ -287,7 +295,7 @@ extension FavoritesProverbsViewController: UITableViewDelegate, UITableViewDataS
         
         if let detailsController = ProverbViewController.create() {
             detailsController.proverb = self.proverbs[indexPath.row]
-            detailsController.backButtonColor = GlobalUI.Colors.darkGrayBlue
+            detailsController.backButtonColor = UIColor.appDarkGrayBlue
             self.navigationController?.pushViewController(detailsController, animated: true)
         }
     }

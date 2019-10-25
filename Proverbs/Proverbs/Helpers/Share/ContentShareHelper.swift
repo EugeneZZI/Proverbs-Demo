@@ -71,7 +71,6 @@ class ContentShareHelper: NSObject {
     init(withProverb proverb: Proverb, delegate: Delegate) {
         self.proverb = proverb
         self.delegate = delegate
-
         super.init()
     }
     

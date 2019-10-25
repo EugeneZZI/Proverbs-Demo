@@ -93,8 +93,8 @@ class BannerViewController: BaseViewController, GADBannerViewDelegate {
             [NSLayoutConstraint(item: bannerView!,
                                 attribute: .bottom,
                                 relatedBy: .equal,
-                                toItem: bottomLayoutGuide,
-                                attribute: .top,
+                                toItem: view.safeAreaLayoutGuide,
+                                attribute: .bottom,
                                 multiplier: 1,
                                 constant: 0),
              NSLayoutConstraint(item: bannerView!,
@@ -124,6 +124,7 @@ class BannerViewController: BaseViewController, GADBannerViewDelegate {
     
     private func getBannerID() -> String? {
         #if DEBUG
+        #warning("Test Ads in debugging")
         return "ca-app-pub-XXXX"
         #else
         if self is RandomProverbViewController {

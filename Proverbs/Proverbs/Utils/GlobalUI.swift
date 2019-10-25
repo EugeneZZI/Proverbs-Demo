@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftHEXColors
 
 struct GlobalUI {
     
@@ -26,29 +25,6 @@ struct GlobalUI {
         }
         static var verticalSpacing:     CGFloat     {
             return 24.0
-        }
-    }
-    
-    struct Colors {
-        static let blue             = UIColor(hexString:"349FC4")!
-        static let grayBlue         = UIColor(hexString:"51838E")!
-        static let darkGrayBlue     = UIColor(hexString:"566B6F")!
-        static let yellow           = UIColor(hexString:"EFB63D")!
-        static let red              = UIColor(hexString:"EF5C3D")!
-        static let grayCancel       = UIColor(hexString:"9B9B9B")!
-        
-        static let facbookButton    = UIColor(hexString:"3C5A99")!
-        static let twitterButton    = UIColor(hexString:"3AAAE1")!
-        static let googleButton     = UIColor(hexString:"EC4338")!
-        
-        static let mainFont         = UIColor.white //.withAlphaComponent(0.8)
-        
-        var mainColors: [UIColor] {
-            return [Colors.blue, Colors.darkGrayBlue, Colors.red, Colors.grayBlue, Colors.yellow]
-        }
-        
-        var allColors: [UIColor] {
-            return [Colors.blue, Colors.darkGrayBlue, Colors.red, Colors.grayBlue, Colors.yellow, Colors.facbookButton, Colors.googleButton, Colors.twitterButton]
         }
     }
     
@@ -78,9 +54,9 @@ struct GlobalUI {
 class ColorsRandomizer {
     
     class func randomColor() -> UIColor {
-        let allColors = GlobalUI.Colors().allColors
-        let randomIndex = Int(arc4random_uniform(UInt32(allColors.count)))
-        return allColors[randomIndex]
+        let allAppColors = UIColor.allAppColors
+        let randomIndex = Int(arc4random_uniform(UInt32(allAppColors.count)))
+        return allAppColors[randomIndex]
     }
     
     private let colorsCount: Int
@@ -105,19 +81,19 @@ class ColorsRandomizer {
     }
     
     private func setColorList() {
-        let globalColors    = GlobalUI.Colors()
-        let mainCount       = globalColors.mainColors.count
-        let allCount        = globalColors.allColors.count
+        let mainAppColors   = UIColor.mainAppColors
+        let allAppColors    = UIColor.allAppColors
+        let mainCount       = mainAppColors.count
+        let allCount        = allAppColors.count
         
         if self.colorsCount < mainCount {
-            self.colors = Array(globalColors.mainColors[0...self.colorsCount])
+            self.colors = Array(mainAppColors[0...self.colorsCount])
         } else if self.colorsCount < allCount {
-            self.colors = Array(globalColors.allColors[0...self.colorsCount])
+            self.colors = Array(allAppColors[0...self.colorsCount])
         } else {
-            let allColors = globalColors.allColors
-            let count = self.colorsCount / allColors.count + 1
+            let count = self.colorsCount / allAppColors.count + 1
             for _ in 0..<count {
-                self.colors.append(contentsOf: allColors)
+                self.colors.append(contentsOf: allAppColors)
             }
         }
     }

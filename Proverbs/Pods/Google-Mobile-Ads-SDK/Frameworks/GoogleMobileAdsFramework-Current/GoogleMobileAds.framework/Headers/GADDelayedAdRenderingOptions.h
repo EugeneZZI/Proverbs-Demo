@@ -2,6 +2,7 @@
 
 #import <GoogleMobileAds/GADAdLoader.h>
 
+/// Delegate for delayed rendering of Google banner ads.
 @protocol GADDelayedAdRenderingDelegate <NSObject>
 
 /// Asks the delegate whether the ad loader should delay rendering the banner ad that it's chosen.
@@ -12,9 +13,10 @@
 
 @end
 
+/// Ad loader options for configuring delayed rendering of Google banner ads.
 @interface GADDelayedAdRenderingOptions : GADAdLoaderOptions
 
-/// Delegate for delaying the rendering of Google ads.
+/// Delegate for delaying the rendering of Google banner ads.
 @property(nonatomic, nullable, weak) id<GADDelayedAdRenderingDelegate> delegate;
 
 @end

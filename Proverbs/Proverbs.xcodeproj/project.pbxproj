@@ -76,6 +76,7 @@
 		1AE664A2208F62F70032F0A5 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE664A1208F62F70032F0A5 /* BaseTableViewCell.swift */; };
 		1AED396B20A4D5210063A48E /* FinalProverbs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AED396A20A4D5210063A48E /* FinalProverbs.plist */; };
 		90D8CD761E34305AACBA2967 /* Pods_Proverbs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81D331841E4624B0E1EA1842 /* Pods_Proverbs.framework */; };
+		C9D7CDD1235F394C00618C79 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D7CDD0235F394C00618C79 /* UIColor+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +154,7 @@
 		81D331841E4624B0E1EA1842 /* Pods_Proverbs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Proverbs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A63FF559DC3DE5A874EE978B /* Pods-Proverbs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Proverbs.release.xcconfig"; path = "Pods/Target Support Files/Pods-Proverbs/Pods-Proverbs.release.xcconfig"; sourceTree = "<group>"; };
 		BB727D731FF7B4EF474C922D /* Pods-Proverbs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Proverbs.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Proverbs/Pods-Proverbs.debug.xcconfig"; sourceTree = "<group>"; };
+		C9D7CDD0235F394C00618C79 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +389,7 @@
 				1A863FB2209731E600A514A7 /* CGRect+Extensions.swift */,
 				1ABD6BD32082228D00D95DE9 /* UIView+Extensions.swift */,
 				1AA9C2BE207E181B00C0B557 /* String+Etensions.swift */,
+				C9D7CDD0235F394C00618C79 /* UIColor+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				1AD311A12081017B00B8FCE6 /* ActionSheetViewController.swift in Sources */,
 				1A50579A2080D1F6007F71DA /* ObliqueView.swift in Sources */,
 				1AA9C2C8207E264D00C0B557 /* UserManager.swift in Sources */,
+				C9D7CDD1235F394C00618C79 /* UIColor+Extensions.swift in Sources */,
 				1AA9C298207E131000C0B557 /* AllProverbsViewController.swift in Sources */,
 				1A6E47242086232500FB7C22 /* MenuViewController.swift in Sources */,
 				1AA1B13F2085FF5A00D0AEE0 /* ObliquConstructor.swift in Sources */,
@@ -860,15 +864,17 @@
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.demo.EnglishProverbsAndSayings;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -884,14 +890,16 @@
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.demo.EnglishProverbsAndSayings;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

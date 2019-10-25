@@ -8,7 +8,6 @@
 
 import CTrueTime
 import Foundation
-import Result
 
 typealias NTPConnectionCallback = (NTPConnection, FrozenNetworkTimeResult) -> Void
 
@@ -73,10 +72,9 @@ final class NTPConnection {
     func start(_ callbackQueue: DispatchQueue, onComplete: @escaping NTPConnectionCallback) {
         lockQueue.async {
             guard !self.started else { return }
-            self.callbackPending = true
             var ctx = CFSocketContext(
                 version: 0,
-                info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
+                info: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
                 retain: nil,
                 release: nil,
                 copyDescription: nil
@@ -108,23 +106,18 @@ final class NTPConnection {
     func close(waitUntilFinished wait: Bool = false) {
         let work = {
             self.cancelTimer()
-            if let socket = self.socket, let source = self.source {
-                let disabledFlags = NTPConnection.callbackFlags |
-                                    kCFSocketAutomaticallyReenableDataCallBack |
-                                    kCFSocketAutomaticallyReenableReadCallBack |
-                                    kCFSocketAutomaticallyReenableWriteCallBack |
-                                    kCFSocketAutomaticallyReenableAcceptCallBack
-                CFSocketDisableCallBacks(socket, disabledFlags)
-                CFSocketInvalidate(socket)
-                CFRunLoopRemoveSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
-                self.socket = nil
-                self.source = nil
-                self.debugLog("Connection closed \(self.address)")
-            }
-            if self.callbackPending {
-                Unmanaged.passUnretained(self).release()
-                self.callbackPending = false
-            }
+            guard let socket = self.socket, let source = self.source else { return }
+            let disabledFlags = NTPConnection.callbackFlags |
+                                kCFSocketAutomaticallyReenableDataCallBack |
+                                kCFSocketAutomaticallyReenableReadCallBack |
+                                kCFSocketAutomaticallyReenableWriteCallBack |
+                                kCFSocketAutomaticallyReenableAcceptCallBack
+            CFSocketDisableCallBacks(socket, disabledFlags)
+            CFSocketInvalidate(socket)
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
+            self.socket = nil
+            self.source = nil
+            self.debugLog("Connection closed \(self.address)")
         }
 
         if wait {
@@ -142,16 +135,13 @@ final class NTPConnection {
 
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         guard let info = info else { return }
-        let retainedClient = Unmanaged<NTPConnection>.fromOpaque(info)
-        let client = retainedClient.takeUnretainedValue()
+        let client = Unmanaged<NTPConnection>.fromOpaque(info).takeUnretainedValue()
         guard let socket = socket, CFSocketIsValid(socket) else { return }
 
         // Can't use switch here as these aren't defined as an enum.
         if type == .dataCallBack {
             let data = unsafeBitCast(data, to: CFData.self) as Data
-            client.callbackPending = false
             client.handleResponse(data)
-            retainedClient.release()
         } else if type == .writeCallBack {
             client.debugLog("Buffer \(client.address) writable - requesting time")
             client.requestTime()
@@ -165,17 +155,16 @@ final class NTPConnection {
     private static let callbackFlags: CFOptionFlags = callbackTypes.map {
         $0.rawValue
     }.reduce(0, |)
-    fileprivate let lockQueue = DispatchQueue(label: "com.instacart.ntp.connection")
-    fileprivate var attempts: Int = 0
-    fileprivate var callbackQueue: DispatchQueue?
-    fileprivate var didTimeout: Bool = false
-    fileprivate var onComplete: NTPConnectionCallback?
-    fileprivate var requestTicks: timeval?
-    fileprivate var socket: CFSocket?
-    fileprivate var source: CFRunLoopSource?
-    fileprivate var startTime: ntp_time_t?
-    fileprivate var finished: Bool = false
-    fileprivate var callbackPending: Bool = false
+    private let lockQueue = DispatchQueue(label: "com.instacart.ntp.connection")
+    private var attempts: Int = 0
+    private var callbackQueue: DispatchQueue?
+    private var didTimeout: Bool = false
+    private var onComplete: NTPConnectionCallback?
+    private var requestTicks: timeval?
+    private var socket: CFSocket?
+    private var source: CFRunLoopSource?
+    private var startTime: ntp_time_t?
+    private var finished: Bool = false
 }
 
 extension NTPConnection: TimedOperation {
@@ -197,15 +186,15 @@ private extension NTPConnection {
 
         close()
         switch result {
-            case let .failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(address) (attempt \(attempts)), " +
-                         "trying again. \(error)")
-                start(callbackQueue, onComplete: onComplete)
-            case .failure, .success:
-                finished = true
-                callbackQueue.async {
-                    onComplete(self, result)
-                }
+        case let .failure(error) where attempts < maxRetries && !didTimeout:
+            debugLog("Got error from \(address) (attempt \(attempts)), " +
+                     "trying again. \(error)")
+            start(callbackQueue, onComplete: onComplete)
+        case .failure, .success:
+            finished = true
+            callbackQueue.async {
+                onComplete(self, result)
+            }
         }
     }
 
@@ -245,7 +234,7 @@ private extension NTPConnection {
                 return
             }
 
-            let packet = data.withUnsafeBytes { $0.pointee as ntp_packet_t }.nativeEndian
+            let packet = data.withUnsafeBytes { $0.load(as: ntp_packet_t.self) }.nativeEndian
             let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
                                                          requestTicks.milliseconds)
 

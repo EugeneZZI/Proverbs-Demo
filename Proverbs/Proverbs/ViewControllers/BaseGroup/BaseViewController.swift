@@ -6,7 +6,6 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-
 import UIKit
 import Reachability
 import NVActivityIndicatorView
@@ -233,11 +232,11 @@ extension BaseViewController: ContentShareHelperDelegate {
             helper.share()
         }
         
-        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: GlobalUI.Colors.facbookButton) { _ in
+        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: UIColor.appFacebookButton) { _ in
             self.shareHelper = ContentShareHelper.createShareHelper(withServiceType: .facebook, proverb: proverb, delegate: viewController)
             share()
         }
-        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: GlobalUI.Colors.twitterButton) { _ in
+        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: UIColor.appTwitterButton) { _ in
             self.shareHelper = ContentShareHelper.createShareHelper(withServiceType: .twitter, proverb: proverb, delegate: viewController)
             share()
         }

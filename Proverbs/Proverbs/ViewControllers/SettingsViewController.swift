@@ -121,13 +121,13 @@ class SettingsViewController: BaseViewController {
     }
     
     private func setupButtons() {
-        let purchaseConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .left))
+        let purchaseConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .right))
         self.purchaseButton.constructor = purchaseConstructor
-        self.purchaseButton.backgroundColor = GlobalUI.Colors.red
+        self.purchaseButton.backgroundColor = UIColor.appRed
         
-        let restoreConstructor = ObliqueConstructor(withSide: .both(leftDirection: .left, rightDirection: .right))
+        let restoreConstructor = ObliqueConstructor(withSide: .both(leftDirection: .right, rightDirection: .right))
         self.restoreButton.constructor = restoreConstructor
-        self.restoreButton.backgroundColor = GlobalUI.Colors.grayCancel
+        self.restoreButton.backgroundColor = UIColor.appGrayCancel
     }
     
     private func setupDatePickerGestures() {

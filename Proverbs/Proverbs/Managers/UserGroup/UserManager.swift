@@ -6,13 +6,13 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import Firebase
 import FBSDKLoginKit
 import TwitterKit
 import GoogleSignIn
 
-class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
+class UserManager: NSObject, GIDSignInDelegate {
 
     struct NotificationName {
         static let DidSignIn    = "UserManager.DidSignIn"
@@ -20,9 +20,9 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
         static let DidSignOut   = "UserManager.DidSignOut"
     }
     
-    struct CompletionClosure {
-        typealias Facebook  = ([String: AnyObject]?, Error?) -> Void
-        typealias Twitter   = ((String, String)?, Error?) -> Void
+    struct Completion {
+        typealias Facebook  = (Result<[String: AnyObject], Error>) -> Void
+        typealias Twitter   = (Result<(String, String), Error>) -> Void
         typealias Google    = ClosureBool
     }
     
@@ -51,8 +51,7 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
     private(set) var currentPlan = Plan.free
     
     // Google Sign In
-    private weak var presentingViewController: UIViewController?
-    private var googleCompletion: CompletionClosure.Google?
+    private var googleCompletion: Completion.Google?
     
     // MARK: - Life Cycle Methods
     
@@ -105,17 +104,29 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
         
         switch option {
         case .facebook:
-            self.facebookSignIn(withViewController: viewController, completion: { (info, error) in
-                if let _ = info, let token = AccessToken.current?.tokenString {
-                    authCredentials = FacebookAuthProvider.credential(withAccessToken: token)
+            self.facebookSignIn(withViewController: viewController, completion: { result in
+                switch result {
+                case .success(_):
+                    if let token = AccessToken.current?.tokenString {
+                        authCredentials = FacebookAuthProvider.credential(withAccessToken: token)
+                    }
+                case .failure(let error):
+                    DLog("Error \(error)")
+                    break
                 }
                 internalCompletion()
             })
         case .twitter:
-            self.twitterSignIn(withViewController: viewController, completion: {(info, error) in
-                if let (token, secret) = info {
+            self.twitterSignIn(withViewController: viewController, completion: { result in
+                switch result {
+                case .success(let info):
+                    let (token, secret) = info
                     authCredentials = TwitterAuthProvider.credential(withToken: token, secret: secret)
+                case .failure(let error):
+                    DLog("Error \(error)")
+                    break
                 }
+                
                 internalCompletion()
             })
         case .google:
@@ -169,21 +180,6 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
         DLog("---> \(String(describing: error))")
     }
     
-    // MARK: - GIDSignInUIDelegate
-    
-    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-        DLog("---> \(String(describing: error))")
-    }
-    
-    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
-        self.presentingViewController?.present(viewController, animated: true, completion: nil)
-    }
-    
-    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-        viewController.dismiss(animated: true, completion: nil)
-        self.presentingViewController = nil
-    }
-    
     // MARK: - Private Methods
     
     private func setupGoogleSigIn() {
@@ -214,52 +210,52 @@ class UserManager: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
     
     // MARK: SignIn Methods
     
-    private func facebookSignIn(withViewController viewController: UIViewController, completion: @escaping UserManager.CompletionClosure.Facebook) {
+    private func facebookSignIn(withViewController viewController: UIViewController, completion: @escaping UserManager.Completion.Facebook) {
         LoginManager().logIn(permissions: ["public_profile", "email"], from: viewController) { (result, error) in
             if let error = error {
                 DLog("Failed to login with facebook. Error \(error)")
-                completion(nil, error)
+                completion(.failure(error))
             } else if let result = result {
                 if result.isCancelled {
-                    completion(nil, nil)
+                    completion(.failure(UndefinedError()))
                 } else {
                     let request = GraphRequest(graphPath: "me", parameters: ["fields": "id, email, first_name, last_name"])
                     request.start(completionHandler: { (connection, result, error) in
                         if let error = error {
                             DLog("Failed t fetch facebook data. Error \(error)")
-                            completion(nil, error)
+                            completion(.failure(error))
                         } else if let result = result as? [String: AnyObject] {
-                            completion(result, nil)
-                        } else { completion(nil, nil) }
+                            completion(.success(result))
+                        } else {
+                            completion(.failure(UndefinedError()))
+                        }
                     })
                 }
             } else {
-                completion(nil, nil)
+                completion(.failure(UndefinedError()))
             }
         }
 
     }
     
-    private func twitterSignIn(withViewController viewController: UIViewController, completion: @escaping UserManager.CompletionClosure.Twitter) {
+    private func twitterSignIn(withViewController viewController: UIViewController, completion: @escaping UserManager.Completion.Twitter) {
         TWTRTwitter.sharedInstance().logIn(with: viewController) { (session, error) in
             if let error = error {
                 DLog("Failed to login with twitter. Error \(error)")
-                completion(nil, error)
+                completion(.failure(error))
             } else if let session = session {
-                let authToken       = session.authToken
-                let authTokenSecret = session.authTokenSecret
-                completion((authToken, authTokenSecret), nil)
+                let info = (session.authToken, session.authTokenSecret)
+                completion(.success(info))
             } else {
-                completion(nil, nil)
+                completion(.failure(UndefinedError()))
             }
         }
     }
     
-    private func googleSignIn(withViewController viewController: UIViewController, completion: @escaping CompletionClosure.Google) {
-        self.presentingViewController = viewController
+    private func googleSignIn(withViewController viewController: UIViewController, completion: @escaping Completion.Google) {
         self.googleCompletion = completion
         
-        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance()?.presentingViewController = viewController
         GIDSignIn.sharedInstance().signIn()
     }
     

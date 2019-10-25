@@ -6,7 +6,7 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import FBSDKCoreKit
 import Fabric
 import Crashlytics
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         let fb = ApplicationDelegate.shared.application(app, open: url, options: options)
         let tw = TWTRTwitter.sharedInstance().application(app, open:url, options: options)
-        let gl = GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+        let gl = GIDSignIn.sharedInstance()?.handle(url) ?? false
         return fb || tw || gl
     }
     

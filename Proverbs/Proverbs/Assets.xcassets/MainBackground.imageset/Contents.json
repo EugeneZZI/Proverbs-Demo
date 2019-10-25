@@ -2,7 +2,27 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Background.png"
+      "filename" : "Background-1.png"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Background.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ]
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Rectangle.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ]
     }
   ],
   "info" : {

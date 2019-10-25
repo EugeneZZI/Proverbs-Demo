@@ -41,41 +41,6 @@ class ActionSheetItem: Equatable {
 
 class ActionSheetViewController: BaseViewController {
     
-//    class func makeShareActionSheet(withDelegate viewController: ContentShareHelper.Delegate, proverb: Proverb) -> ActionSheetViewController? {
-//        guard let actionSheet = ActionSheetViewController.makeWithTitle("Share via") else {
-//            return nil
-//        }
-//        
-//        var shareHelper: ContentShareHelper?
-//        let share = {
-//            guard let helper = shareHelper else {
-//                return
-//            }
-//            helper.share()
-//        }
-//        
-//        let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: GlobalUI.Colors.facbookButton) { _ in
-//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .facebook, proverb: proverb, delegate: viewController)
-//            share()
-//        }
-//        let twitterAction = ActionSheetItem(type: .select, title: "Twitter", color: GlobalUI.Colors.twitterButton) { _ in
-//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .twitter, proverb: proverb, delegate: viewController)
-//            share()
-//        }
-//        let clipboardAction = ActionSheetItem(type: .select, title: "Copy Link") { _ in
-//            shareHelper = ContentShareHelper.createShareHelper(withServiceType: .clipboard, proverb: proverb, delegate: viewController)
-//            share()
-//        }
-//        let cancelAction = ActionSheetItem(type: .destructive, title: "Cancel")
-//        
-//        actionSheet.addItem(facebookAction)
-//        actionSheet.addItem(twitterAction)
-//        actionSheet.addItem(clipboardAction)
-//        actionSheet.addItem(cancelAction)
-//        
-//        return actionSheet
-//    }
-    
     private let TitleViewTag = 823
     
     private struct Fonts {
@@ -174,7 +139,7 @@ class ActionSheetViewController: BaseViewController {
         let label = UILabel()
         label.text = text
         label.font = Fonts.title
-        label.textColor = GlobalUI.Colors.mainFont
+        label.textColor = UIColor.appMainFont
         label.sizeToFit()
         titleView.addSubview(label)
         var center = titleView.center
@@ -189,7 +154,7 @@ class ActionSheetViewController: BaseViewController {
         retButton.frame = frame
         retButton.tag = tag
         retButton.setTitle(item.title, for: .normal)
-        retButton.setTitleColor(GlobalUI.Colors.mainFont, for: .normal)
+        retButton.setTitleColor(UIColor.appMainFont, for: .normal)
         retButton.addTarget(self, action: #selector(ActionSheetViewController.buttonPushed(_:)), for: .touchUpInside)
         var constructor: ObliqueConstructor!
         
@@ -215,7 +180,7 @@ class ActionSheetViewController: BaseViewController {
         for view in self.elementsViews {
             if let button = view as? UIButton, let item = self.getItem(forButton: button) {
                 if item.type == .destructive {
-                    button.backgroundColor = GlobalUI.Colors.grayCancel
+                    button.backgroundColor = UIColor.appGrayCancel
                 } else {
                     button.backgroundColor = item.color ?? colorsRandomizer.nextRandomColor()
                 }

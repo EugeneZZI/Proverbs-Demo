@@ -6,17 +6,17 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import Firebase
 
-class FirestoreManager: NSObject {
+class FirestoreManager {
     
-    struct CompletionClosure {
+    struct Completion {
         typealias Check   = ClosureBool
-        typealias Save    = (FFavoriteProverb?, Error?) -> Void
+        typealias Save    = (Result<FFavoriteProverb, Error>) -> Void
         typealias Delete  = (Error?) -> Void
-        typealias Get     = (FFavoriteProverb?, Error?) -> Void
-        typealias GetAll  = ([FFavoriteProverb]?, Error?) -> Void
+        typealias Get     = (Result<FFavoriteProverb, Error>) -> Void
+        typealias GetAll  = (Result<[FFavoriteProverb], Error>) -> Void
     }
     
     
@@ -48,7 +48,6 @@ class FirestoreManager: NSObject {
     
     init(withUserIdentifier identifier: String) {
         self.currentUserIdentifier = identifier
-        super.init()
     }
     
     // MARK: - Public Methods
@@ -68,9 +67,9 @@ class FirestoreManager: NSObject {
         }
     }
     
-    func getAllFavoriteProverbs(withCompletion completion: @escaping CompletionClosure.GetAll) {
+    func getAllFavoriteProverbs(withCompletion completion: @escaping Completion.GetAll) {
         guard let favoritesCollection = self.favoritesCollection else {
-            completion(nil, nil)
+            completion(.failure(UndefinedError()))
             return
         }
         
@@ -80,7 +79,7 @@ class FirestoreManager: NSObject {
             
             if let error = error {
                 DLog("Failed to load favorite documents with error \(error)")
-                completion(nil, error)
+                completion(.failure(error))
             } else if let snapshot = snapshot {
                 var fProverbs = [FFavoriteProverb]()
                 
@@ -89,17 +88,17 @@ class FirestoreManager: NSObject {
                     fProverbs.append(fProverb)
                 }
                 
-                completion(fProverbs, nil)
+                completion(.success(fProverbs))
             } else {
                 DLog("Failed to load favorite documents")
-                completion(nil, nil)
+                completion(.failure(UndefinedError()))
             }
         }
     }
     
-    func getFavorite(withOriginIdentifier identifier: String, completion: @escaping CompletionClosure.Get) {
+    func getFavorite(withOriginIdentifier identifier: String, completion: @escaping Completion.Get) {
         guard let collection = self.favoritesCollection else {
-            completion(nil, self.getInternalError())
+            completion(.failure(UndefinedError()))
             return
         }
         
@@ -109,16 +108,16 @@ class FirestoreManager: NSObject {
             
             if let error = error {
                 DLog("Failed to get favorite document with error \(error)")
-                completion(nil, error)
+                completion(.failure(error))
             } else if let snapshot = snapshot {
                 if let document = snapshot.documents.first?.data() {
-                    completion(FFavoriteProverb(dictionary: document), nil)
+                    completion(.success(FFavoriteProverb(dictionary: document)))
                 } else {
-                    completion(nil, nil)
+                    completion(.failure(UndefinedError()))
                 }
             } else {
                 DLog("Failed to get favorite document")
-                completion(nil, nil)
+                completion(.failure(UndefinedError()))
             }
         }
     }
@@ -154,9 +153,9 @@ class FirestoreManager: NSObject {
         }
     }
     
-    func save(proverb: FFavoriteProverb, completion: @escaping CompletionClosure.Save) {
+    func save(proverb: FFavoriteProverb, completion: @escaping Completion.Save) {
         guard let collection = self.favoritesCollection else {
-            completion(nil, self.getInternalError())
+            completion(.failure(UndefinedError()))
             return
         }
         
@@ -166,16 +165,16 @@ class FirestoreManager: NSObject {
             
             if let error = error {
                 DLog("Failed to save proverb \(error)")
-                completion(nil, error)
+                completion(.failure(error))
             } else {
-                completion(proverb, nil)
+                completion(.success(proverb))
             }
         }
     }
     
-    func delete(proverb: FFavoriteProverb, completion: @escaping CompletionClosure.Delete) {
+    func delete(proverb: FFavoriteProverb, completion: @escaping Completion.Delete) {
         guard let collection = self.favoritesCollection else {
-            completion(self.getInternalError())
+            completion(UndefinedError())
             return
         }
         
@@ -192,7 +191,7 @@ class FirestoreManager: NSObject {
         }
     }
     
-    func isFavorite(proverbWithOriginIdentifier identifier: String, completion: @escaping CompletionClosure.Check) {
+    func isFavorite(proverbWithOriginIdentifier identifier: String, completion: @escaping Completion.Check) {
         guard let collection = self.favoritesCollection else {
             completion(false)
             return
@@ -247,10 +246,7 @@ class FirestoreManager: NSObject {
             }
         }
     }
-    
-    private func getInternalError() -> Error {
-        return NSError(domain: "FirestoreManagerDomain", code: 25235, userInfo: nil)
-    }
+
 }
 
 

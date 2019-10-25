@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '10.3'
+ platform :ios, '11.0'
 
 target 'Proverbs' do
   use_frameworks!
@@ -8,16 +8,13 @@ target 'Proverbs' do
   pod 'ReachabilitySwift'
   pod 'RealmSwift'
   pod 'GhostTypewriter'
-  pod 'SwiftHEXColors'
   pod 'SwiftyStoreKit'
   pod 'NVActivityIndicatorView'
   pod 'MGSwipeTableCell'
   pod 'DateToolsSwift'
-  pod 'TrueTime', :git => 'https://github.com/instacart/TrueTime.swift', :commit => '8aadebabe2590d6ab295c390df5bbc109b346348'
+  pod 'TrueTime'
   
-  pod 'Firebase/Core'
   pod 'Firebase/Auth'
-  pod 'Firebase/Performance'
   pod 'Firebase/AdMob'
   pod 'Firebase/Firestore'
 

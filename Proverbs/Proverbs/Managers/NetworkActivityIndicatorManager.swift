@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NetworkActivityIndicatorManager: NSObject {
+class NetworkActivityIndicatorManager {
 
     private static var loadingCount = 0
     

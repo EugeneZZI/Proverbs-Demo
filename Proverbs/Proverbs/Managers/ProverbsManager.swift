@@ -7,9 +7,8 @@
 //
 
 import UIKit
-//import FirebaseStorage
 
-class ProverbsManager: NSObject {
+class ProverbsManager {
     
     static let shared = ProverbsManager()
     
@@ -77,9 +76,7 @@ class ProverbsManager: NSObject {
     
     // MARK: - Life Cycle Methods
     
-    private override init() {
-        super.init()
-    }
+    private init() {}
     
     // MARK: - Public Methods
     

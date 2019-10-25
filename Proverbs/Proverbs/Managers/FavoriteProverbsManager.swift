@@ -6,23 +6,18 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
-class FavoriteProverbsManager: NSObject {
+enum FavoriteProverbsManagerError: Error {
+    case undefined
+    case maxLimit(Int)
+    case isFavorite
+    case isNotFavorite
+}
+
+class FavoriteProverbsManager {
 
     static let freeMaxCount = 5
-    
-    struct ErrorInfo {
-        static let Domain = "FavoriteProverbsManager"
-        
-        struct Code {
-            static let Internal         = 2300
-            static let MaxLimit         = 2301
-            static let IsFavorite       = 2302
-            static let IsNotFavorite    = 2303
-        }
-    }
     
     struct NotificationName {
         static let DidSave    = "FavoriteProverbsManager.DidSave"
@@ -34,11 +29,11 @@ class FavoriteProverbsManager: NSObject {
         static let OriginProverbIdentifier      = "FavoriteProverbsManager.OriginProverbIdentifier"
     }
     
-    struct CompletionClosure {
+    struct Completion {
         typealias Check   = ClosureBool
-        typealias Save    = (FavoriteProverb?, Error?) -> Void
+        typealias Save    = (Result<FavoriteProverb, Error>) -> Void
         typealias Delete  = (Error?) -> Void
-        typealias Get     = ([FavoriteProverb]?, Error?) -> Void
+        typealias Get     = (Result<[FavoriteProverb], Error>) -> Void
     }
     
     static let shared = FavoriteProverbsManager()
@@ -60,8 +55,7 @@ class FavoriteProverbsManager: NSObject {
     
     // MARK: - Life Cycle Methods
     
-    private override init() {
-        super.init()
+    private init() {
         self.addNotificationsObserver()
     }
     
@@ -74,25 +68,25 @@ class FavoriteProverbsManager: NSObject {
     func start() {
         self.setupFirestoreManager()
     }
-    
-    func getAll(withCompletion completion: @escaping CompletionClosure.Get) {
+        
+    func getAll(withCompletion completion: @escaping Completion.Get) {
         if self.isLocalStorage {
             if let results = self.localStorage.getAll() {
-                completion(Array(results), nil)
+                completion(.success(Array(results)))
             } else {
-                completion(nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.Internal, userInfo: nil))
+                completion(.failure(FavoriteProverbsManagerError.undefined))
             }
         } else {
             guard let remoteStorage = self.remoteStorage else {
-                completion(nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.Internal, userInfo: nil))
+                completion(.failure(FavoriteProverbsManagerError.undefined))
                 return
             }
             
-            remoteStorage.getAllFavoriteProverbs(withCompletion: completion)
+            remoteStorage.getAllFavoriteProverbs { completion($0.map { $0 }) }
         }
     }
     
-    func isFavorite(proverb: Proverb, completion: @escaping CompletionClosure.Check) {
+    func isFavorite(proverb: Proverb, completion: @escaping Completion.Check) {
         if self.isLocalStorage {
             completion(self.isFavoriteLocal(proverb: proverb))
         } else {
@@ -100,29 +94,33 @@ class FavoriteProverbsManager: NSObject {
         }
     }
     
-    func save(proverb: Proverb, completion: @escaping CompletionClosure.Save) {
+    func save(proverb: Proverb, completion: @escaping Completion.Save) {
         let identifiers = self.identifiers(fromProverb: proverb)
         
-        let saveCompletion: CompletionClosure.Save = { (proverb, error) in
-            if proverb != nil && error == nil {
+        let saveCompletion: Completion.Save = { result in
+            switch result {
+            case .success(_):
                 self.sendDidSaveNotification(proverbIdentifier: identifiers.favoriteIdentifier, withOriginIdentifier: identifiers.originIdentifier)
+            default: break
             }
             
-            completion(proverb, error)
+            completion(result)
         }
         
         if self.isLocalStorage {
-            let result = self.checkAndSaveLocal(proverb: proverb)
-            saveCompletion(result.0, result.1)
+            switch self.checkAndSaveLocal(proverb: proverb) {
+            case .success(let proverb): saveCompletion(.success(proverb))
+            case .failure(let error): saveCompletion(.failure(error))
+            }
         } else {
             self.chackAndSaveRemote(proverb: proverb, completion: saveCompletion)
         }
     }
     
-    func delete(proverb: Proverb, completion: @escaping CompletionClosure.Delete) {
+    func delete(proverb: Proverb, completion: @escaping Completion.Delete) {
         let identifiers = self.identifiers(fromProverb: proverb)
         
-        let deleteCompletion: CompletionClosure.Delete = { (error) in
+        let deleteCompletion: Completion.Delete = { (error) in
             if error == nil {
                 self.sendDidDeleteNotification(proverbIdentifier: identifiers.favoriteIdentifier, withOriginIdentifier: identifiers.originIdentifier)
             }
@@ -180,15 +178,21 @@ class FavoriteProverbsManager: NSObject {
                 return
             }
             
-            remoteStorage.getAllFavoriteProverbs(withCompletion: { (favorites, error) in
-                if let fFavorites = favorites, fFavorites.count > 0 { // compare and save
-                    let toSave = self.filter(localProverbs: local, withRemoteProverbs: fFavorites)
-                    if toSave.count > 0 {
-                        self.saveToRemoteStorage(localFavoriteProverbs: toSave, completion: { result in completion?(result)})
-                    } else {
-                        completion?(true)
+            remoteStorage.getAllFavoriteProverbs(withCompletion: { result in
+                switch result {
+                case .success(let favorites):
+                    if favorites.count > 0 { // compare and save
+                        let toSave = self.filter(localProverbs: local, withRemoteProverbs: favorites)
+                        if toSave.count > 0 {
+                            self.saveToRemoteStorage(localFavoriteProverbs: toSave, completion: { result in completion?(result)})
+                        } else {
+                            completion?(true)
+                        }
+                    } else { // just save
+                        self.saveToRemoteStorage(localFavoriteProverbs: local, completion: { result in completion?(result)})
                     }
-                } else { // just save
+                case .failure(let error):
+                    DLog("Error \(error)")
                     self.saveToRemoteStorage(localFavoriteProverbs: local, completion: { result in completion?(result)})
                 }
             })
@@ -241,21 +245,21 @@ class FavoriteProverbsManager: NSObject {
         return Array(results)
     }
     
-    private func checkAndSaveLocal(proverb: Proverb) -> (RFavoriteProverb?, Error?) {
+    private func checkAndSaveLocal(proverb: Proverb) -> Result<RFavoriteProverb, Error> {
         guard let proverb = proverb as? RProverb else {
-            return (nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsFavorite, userInfo: nil))
+            return .failure(FavoriteProverbsManagerError.isFavorite)
         }
         
         if self.hasRestriction && self.getLocalCount() >= FavoriteProverbsManager.freeMaxCount {
-                return (nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.MaxLimit, userInfo: nil))
+            return .failure(FavoriteProverbsManagerError.maxLimit(FavoriteProverbsManager.freeMaxCount))
         }
         
         let saveProverb = RFavoriteProverb(rProverb: proverb)
         if self.localStorage.saveUpdate(withModel: saveProverb) {
-            return (saveProverb, nil)
+            return .success(saveProverb)
         }
         
-        return (nil, nil)
+        return .failure(FavoriteProverbsManagerError.undefined)
     }
     
     private func checkAndDeleteLocal(proverb: Proverb) -> Error? {
@@ -264,7 +268,7 @@ class FavoriteProverbsManager: NSObject {
             if self.localStorage.delete(object: rFavoriteProverb) {                
                 return nil
             } else {
-                return NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.Internal, userInfo: nil)
+                return FavoriteProverbsManagerError.undefined
             }
         }
         
@@ -272,12 +276,12 @@ class FavoriteProverbsManager: NSObject {
             if let rFavoriteProverb = self.localStorage.get(objectWithKey: RFavoriteProverb.SecondaryIndex.originIdentifier, withValue: rProverb.identifier) {
                 return delete(rFavoriteProverb)
             } else {
-                return NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsNotFavorite, userInfo: nil)
+                return FavoriteProverbsManagerError.isNotFavorite
             }
         } else if let rFavoriteProverb = proverb as? RFavoriteProverb {
             return delete(rFavoriteProverb)
         } else {
-            return NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsNotFavorite, userInfo: nil)
+            return FavoriteProverbsManagerError.isNotFavorite
         }
     }
     
@@ -287,7 +291,7 @@ class FavoriteProverbsManager: NSObject {
     
     // MARK: Remote Storage
     
-    private func isFavoriteRemote(proverb: Proverb, completion: @escaping CompletionClosure.Check) {
+    private func isFavoriteRemote(proverb: Proverb, completion: @escaping Completion.Check) {
         if proverb is RFavoriteProverb || proverb is FFavoriteProverb {
             completion(true)
         } else if let proverb = proverb as? RProverb {
@@ -300,24 +304,24 @@ class FavoriteProverbsManager: NSObject {
         }
     }
     
-    private func chackAndSaveRemote(proverb: Proverb, completion: @escaping CompletionClosure.Save) {
+    private func chackAndSaveRemote(proverb: Proverb, completion: @escaping Completion.Save) {
         guard let proverb = proverb as? RProverb else {
-            completion(nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsFavorite, userInfo: nil))
+            completion(.failure(FavoriteProverbsManagerError.isFavorite))
             return
         }
         guard let remoteStorage = self.remoteStorage else {
-            completion(nil, NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.Internal, userInfo: nil))
+            completion(.failure(FavoriteProverbsManagerError.undefined))
             return
         }
         
         let fProverb = FFavoriteProverb(rProverb: proverb)
-        remoteStorage.save(proverb: fProverb, completion: completion)
+        remoteStorage.save(proverb: fProverb) { completion( $0.map{ $0 }) }
     }
     
-    private func checkAndDeleteRemote(proverb: Proverb, completion: @escaping CompletionClosure.Delete) {
+    private func checkAndDeleteRemote(proverb: Proverb, completion: @escaping Completion.Delete) {
         let delete: (FFavoriteProverb) -> Void = { fFavoriteProverb in
             guard let remoteStorage = self.remoteStorage else {
-                completion(NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.Internal, userInfo: nil))
+                completion(FavoriteProverbsManagerError.undefined)
                 return
             }
             
@@ -325,17 +329,18 @@ class FavoriteProverbsManager: NSObject {
         }
         
         if let rProverb = proverb as? RProverb {
-            self.remoteStorage?.getFavorite(withOriginIdentifier: rProverb.identifier, completion: { (fFavoriteProverb, error) in
-                if let fFavoriteProverb = fFavoriteProverb {
-                    delete(fFavoriteProverb)
-                } else {
-                    completion(NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsNotFavorite, userInfo: nil))
+            self.remoteStorage?.getFavorite(withOriginIdentifier: rProverb.identifier, completion: { result in
+                switch result {
+                case .success(let proverb):
+                    delete(proverb)
+                case .failure(let error):
+                    completion(error)
                 }
             })
         } else if let fFavoriteProverb = proverb as? FFavoriteProverb {
             return delete(fFavoriteProverb)
         } else {
-            completion(NSError(domain: ErrorInfo.Domain, code: ErrorInfo.Code.IsNotFavorite, userInfo: nil))
+            completion(FavoriteProverbsManagerError.isNotFavorite)
         }
     }
     
@@ -375,4 +380,21 @@ extension FavoriteProverbsManager: NotificationsObserver {
     
     @objc func userDidSignOut(_ notif: Notification) {
     }
+}
+
+extension FavoriteProverbsManagerError: LocalizedError {
+    
+    var errorDescription: String? {
+        switch self {
+        case .isFavorite:
+            return "Proverb is favorite"
+        case .isNotFavorite:
+            return "Proverb is not favorite"
+        case .maxLimit(let limit):
+            return "Proverbs limit \(limit) is reached"
+        default:
+            return "Undefined Error"
+        }
+    }
+    
 }

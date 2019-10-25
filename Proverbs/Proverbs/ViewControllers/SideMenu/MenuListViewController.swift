@@ -71,10 +71,10 @@ class MenuItem: Equatable, Unlockable {
     
     private func getColor(forType type: ItemType) -> UIColor {
         switch type {
-        case .random:   return GlobalUI.Colors.yellow
-        case .allList:  return GlobalUI.Colors.darkGrayBlue
-        case .settings: return GlobalUI.Colors.blue
-        case .login:    return GlobalUI.Colors.red
+        case .random:   return UIColor.appYellow
+        case .allList:  return UIColor.appDarkGrayBlue
+        case .settings: return UIColor.appBlue
+        case .login:    return UIColor.appRed
         }
     }
     
@@ -164,7 +164,7 @@ class MenuListViewController: BaseViewController {
         var currentY: CGFloat = safeAreaTopInset + 4.0
         
         var frame = CGRect(x: 0.0, y: currentY, width: navigationBarViewWidth, height: GlobalUI.Sizes.elementHeight)
-        let navigationBarView = self.createNavigationBarView(withFrame: frame, color: GlobalUI.Colors.grayBlue)
+        let navigationBarView = self.createNavigationBarView(withFrame: frame, color: UIColor.appGrayBlue)
         navigationBarView.tag = 681
         self.view.addSubview(navigationBarView)
         self.elementsViews.append(navigationBarView)
@@ -205,7 +205,7 @@ class MenuListViewController: BaseViewController {
         retButton.frame = frame
         retButton.tag = tag
         retButton.setTitle(item.title, for: .normal)
-        retButton.setTitleColor(GlobalUI.Colors.mainFont, for: .normal)
+        retButton.setTitleColor(UIColor.appMainFont, for: .normal)
         retButton.backgroundColor = item.color
         retButton.addTarget(self, action: #selector(MenuListViewController.buttonPushed(_:)), for: .touchUpInside)
         let constructor = ObliqueConstructor(withSide: .right(direction: .right))

@@ -89,7 +89,7 @@ class NavigationBar: UIView {
         self.createAndAddMenuButton()
         
         let favoritesButton = self.makeRightButton()
-        favoritesButton.backgroundColor = self.rightButtonColor ?? GlobalUI.Colors.blue
+        favoritesButton.backgroundColor = self.rightButtonColor ?? UIColor.appBlue
         favoritesButton.setImage(UIImage(named: "FavoritesIcon")!, for: .normal)
         var inset = favoritesButton.imageEdgeInsets
         inset.left += GlobalUI.NavigationBar.menuIconSideOffset
@@ -107,7 +107,7 @@ class NavigationBar: UIView {
         self.createAndAddBackButton()
         
         let sortButton = self.makeRightButton()
-        sortButton.backgroundColor = self.rightButtonColor ?? GlobalUI.Colors.darkGrayBlue
+        sortButton.backgroundColor = self.rightButtonColor ?? UIColor.appDarkGrayBlue
         sortButton.setImage(UIImage(named: "SortAlphabetIcon")!, for: .normal)
         var inset = sortButton.imageEdgeInsets
         inset.left += GlobalUI.NavigationBar.menuIconSideOffset
@@ -126,7 +126,7 @@ class NavigationBar: UIView {
     }
     
     @objc private func updateForPrivacyPolicyViewController() {
-        let titleView = self.makeTitleView(withText: "Privacy Policy", color: GlobalUI.Colors.grayBlue)
+        let titleView = self.makeTitleView(withText: "Privacy Policy", color: UIColor.appGrayBlue)
         self.title = titleView
         self.addSubview(titleView)
         self.createAndAddBackButton()
@@ -134,7 +134,7 @@ class NavigationBar: UIView {
     
     @objc private func updateForProverbViewController() {
         let backButton = self.makeLeftButton()
-        backButton.backgroundColor = self.leftButtonColor ?? GlobalUI.Colors.grayBlue
+        backButton.backgroundColor = self.leftButtonColor ?? UIColor.appGrayBlue
         backButton.setImage(UIImage(named: "BackIcon")!, for: .normal)
         var inset = backButton.imageEdgeInsets
         inset.left -= GlobalUI.NavigationBar.backIconSideOffset
@@ -182,7 +182,7 @@ class NavigationBar: UIView {
 
     private func createAndAddMenuButton() {
         let menuButton = self.makeLeftButton()
-        menuButton.backgroundColor = self.leftButtonColor ?? GlobalUI.Colors.grayBlue
+        menuButton.backgroundColor = self.leftButtonColor ?? UIColor.appGrayBlue
         menuButton.setImage(UIImage(named: "MenuIcon")!, for: .normal)
         var inset = menuButton.imageEdgeInsets
         inset.left -= GlobalUI.NavigationBar.menuIconSideOffset
@@ -225,7 +225,7 @@ class NavigationBar: UIView {
         return rightButton
     }
     
-    private func makeTitleView(withText text: String, color: UIColor = GlobalUI.Colors.blue) -> UIView {
+    private func makeTitleView(withText text: String, color: UIColor = UIColor.appBlue) -> UIView {
         var frame = self.makeLeftButtonFrame()
         frame.size.width = ScreenSize.width - self.makeRightButtonFrame().width - GlobalUI.Offsets.buttonsSide
         let view = ObliqueView(frame: frame)
@@ -235,7 +235,7 @@ class NavigationBar: UIView {
         
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: GlobalUI.Fonts.mainSize, weight: .medium)
-        title.textColor = GlobalUI.Colors.mainFont
+        title.textColor = UIColor.appMainFont
         title.text = text
         title.sizeToFit()
         frame = title.frame

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Eugene Zozulya. All rights reserved.
 //
 
-import UIKit
+
 import UserNotifications
 import DateToolsSwift
 
@@ -14,7 +14,7 @@ class RemindersManager {
     
     static let shared = RemindersManager()
     
-    struct CompletionClosure {
+    struct Completion {
         typealias Settings  = (UNAuthorizationStatus) -> Void
     }
     
@@ -67,8 +67,7 @@ class RemindersManager {
     
     // MARK: - Life Cycle Methods
     
-    private init() {
-    }
+    private init() {}
     
     // MARK: - Public Methods
     
@@ -95,7 +94,7 @@ class RemindersManager {
         }
     }
     
-    func checkNotificationsSettings(withCompletion completion: CompletionClosure.Settings? = nil) {
+    func checkNotificationsSettings(withCompletion completion: Completion.Settings? = nil) {
         self.notificationsCenter.getNotificationSettings(completionHandler: { (settings) in
             async_main {
                 completion?(settings.authorizationStatus)
