@@ -11,11 +11,10 @@ AppStore [link].
 - Firebase Firestore
 - Firebase Storage
 - Firebase Hosting
+- Firebase Crashlytics
 - AdMob
 - Facebook
 - Twitter
-- Fabric
-- Crashlytics
 - In-App Purchases
 
 
@@ -42,14 +41,8 @@ AppStore [link].
  (*Project settings or Info.plist*)
 - Consumer Key and Secret
  (*AppDelegate.swift*)
-
-**4) Configure Fabric with Crashlytics**
-- Fabric run script
- (*Build Phases for target settings*)
- - Fabric API Key 
-  (*Project settings or Info.plist*)
  
-**5) Configure IAP**
+**4) Configure IAP**
 - Set Product ID
  (*IAPController.swift*)
 
@@ -65,7 +58,7 @@ YevheniiZozulia@sezorus.com
 
 ## License
 
-Proverbs Demo iOS App is available under the GNU General Public License v3.0 license. See the LICENSE file for more info.
+Proverbs Demo iOS App is available under the MIT License. See the LICENSE file for more info.
 
 
 
