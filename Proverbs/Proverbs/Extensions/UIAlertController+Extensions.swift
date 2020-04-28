@@ -2,8 +2,8 @@
 //  UIAlertController+Extensions.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 5/5/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 5/5/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ typealias UIAlertControllerActionBlock = (UIAlertAction) -> Void
 
 extension UIAlertController {
     
-    class func showAlert(withTitle title: String? = App.realName, message alertMessage: String, completion: ClosureVoid? = nil) {
+    class func show(withTitle title: String? = App.realName, message alertMessage: String, completion: ClosureVoid? = nil) {
         let alert = UIAlertController(title: title,
                                       message: alertMessage,
                                       preferredStyle: .alert)
@@ -22,7 +22,7 @@ extension UIAlertController {
         }
     }
     
-    class func showAlert(_ vc: UIViewController,
+    class func show(forViewController vc: UIViewController,
                          title: String? = App.realName,
                          message: String?,
                          hideDelay: TimeInterval = 3,

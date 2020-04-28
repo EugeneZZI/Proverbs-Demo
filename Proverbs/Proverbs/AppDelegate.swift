@@ -2,14 +2,12 @@
 //  AppDelegate.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/10/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/10/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 
 import FBSDKCoreKit
-import Fabric
-import Crashlytics
 import Firebase
 import TwitterKit
 import GoogleSignIn
@@ -25,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TWTRTwitter.sharedInstance().start(withConsumerKey:"XXXX", consumerSecret:"XXXX")
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        Fabric.with([Crashlytics.self])
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start { _ in }
         ProverbsManager.shared.checkAndPopulateProverbs()

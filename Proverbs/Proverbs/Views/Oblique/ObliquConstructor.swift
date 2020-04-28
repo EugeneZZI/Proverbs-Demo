@@ -2,8 +2,8 @@
 //  ObliquConstructor.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/17/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/17/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -62,7 +62,7 @@ class ObliqueConstructor {
             ctx.addArc(tangent1End: point3, tangent2End: point4, radius: self.radius)
             ctx.addLine(to: point4)
             ctx.addLine(to: point1)
-        case .both(_):
+        case .both(_,_):
             ctx.addArc(tangent1End: point2, tangent2End: point3, radius: self.radius)
             ctx.addArc(tangent1End: point3, tangent2End: point4, radius: self.radius)
             ctx.addArc(tangent1End: point4, tangent2End: point1, radius: self.radius)

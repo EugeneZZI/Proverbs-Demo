@@ -2,8 +2,8 @@
 //  BaseAnimationViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 9/6/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 9/6/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit

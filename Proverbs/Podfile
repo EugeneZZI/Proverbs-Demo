@@ -17,13 +17,12 @@ target 'Proverbs' do
   pod 'Firebase/Auth'
   pod 'Firebase/AdMob'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
 
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'TwitterKit'
   pod 'GoogleSignIn'
-  
-  pod 'Fabric'
-  pod 'Crashlytics'
 
 end

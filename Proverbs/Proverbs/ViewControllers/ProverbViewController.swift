@@ -2,8 +2,8 @@
 //  ProverbViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/17/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/17/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -118,15 +118,15 @@ class ProverbViewController: BannerViewController {
     
     private func checkFavoriteManagerError(_ error: Error) {
         guard let managerError = error as? FavoriteProverbsManagerError else {
-            UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+            UIAlertController.show(withTitle: "Error", message: "Failed to save proverb to favorites")
             return
         }
         
         switch managerError {
         case .maxLimit(let limit):
-            UIAlertController.showAlert(withTitle: "Error", message: "You reached maximum limit of \(limit). Unlock all features or delete some old favorite proverbs first.")
+            UIAlertController.show(withTitle: "Error", message: "You reached maximum limit of \(limit). Unlock all features or delete some old favorite proverbs first.")
         default:
-            UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+            UIAlertController.show(withTitle: "Error", message: "Failed to save proverb to favorites")
         }
     }
     

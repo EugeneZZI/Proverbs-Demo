@@ -2,8 +2,8 @@
 //  RFavoriteProverb.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 
@@ -58,7 +58,7 @@ class RFavoriteProverb: Object, FavoriteProverb {
     convenience init(rProverb: RProverb) {
         self.init()
         
-        self._identifier        = String.randomString()
+        self._identifier        = String.random()
         self._originIdentifier  = rProverb._identifier
         self._createdAt         = Date()
         self._text              = rProverb._text

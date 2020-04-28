@@ -2,8 +2,8 @@
 //  MenuViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/17/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/17/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -131,7 +131,7 @@ class MenuViewController: BaseViewController, MenuListViewControllerDelegate {
             menuViewController.checkAndUpdateLoginButtonTitle()
         }
         
-        let actionSheet = ActionSheetViewController.makeWithTitle("Sign In with")
+        let actionSheet = ActionSheetViewController.make(withTitle: "Sign In with")
         let facebookAction = ActionSheetItem(type: .select, title: "Facebook", color: UIColor.appFacebookButton) { _ in
             UserManager.shared.signIn(onViewController: menuViewController, withOption: .facebook, completion: signInCompletion)
         }

@@ -2,8 +2,8 @@
 //  ProverbsManager.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -94,8 +94,7 @@ class ProverbsManager {
             proverbs = self.proverbsStorage.getAllUnviewed()
         }
         
-        let randomIndex = Int(arc4random_uniform(UInt32(proverbs.count)))
-        let retProverb = proverbs[randomIndex]
+        let retProverb = proverbs.randomElement()!
         self.proverbsStorage.markAsViewed(proverb: retProverb)
         
         return retProverb

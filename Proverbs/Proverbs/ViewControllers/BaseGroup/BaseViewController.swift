@@ -2,8 +2,8 @@
 //  BaseViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -220,7 +220,7 @@ class BaseViewController: UIViewController, ViewControllerConstructor, Navigatio
 extension BaseViewController: ContentShareHelperDelegate {
     
     func makeShareActionSheet(withDelegate viewController: ContentShareHelper.Delegate, proverb: Proverb) -> ActionSheetViewController? {
-        guard let actionSheet = ActionSheetViewController.makeWithTitle("Share via") else {
+        guard let actionSheet = ActionSheetViewController.make(withTitle: "Share via") else {
             return nil
         }
         
@@ -288,11 +288,11 @@ extension BaseViewController {
             message = "Great! \(daysLeftToUnlock) day left to unlock the list of all Proverbs for free."
         }
         
-        after(0.5) { UIAlertController.showAlert(message: message) }
+        after(0.5) { UIAlertController.show(message: message) }
     }
     
     func showCongratulationAlert() {
-        after(0.5) { UIAlertController.showAlert(message: "Congratulations! List of all Proverbs has been unlocked!") }
+        after(0.5) { UIAlertController.show(message: "Congratulations! List of all Proverbs has been unlocked!") }
     }
     
 }

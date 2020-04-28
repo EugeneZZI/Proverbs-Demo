@@ -29,6 +29,7 @@
 		1A5057A12080E3C6007F71DA /* FavoriteProverbsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5057A02080E3C6007F71DA /* FavoriteProverbsManager.swift */; };
 		1A5B2C1B209DDD6500A6AA8C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5B2C1A209DDD6500A6AA8C /* UIViewController+Extensions.swift */; };
 		1A5B2C1D209DDE4900A6AA8C /* UIAlertController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5B2C1C209DDE4900A6AA8C /* UIAlertController+Extensions.swift */; };
+		1A5D8B6E24586BCB00A58063 /* ColorsRandomizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5D8B6D24586BCB00A58063 /* ColorsRandomizer.swift */; };
 		1A6E47242086232500FB7C22 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E47232086232500FB7C22 /* MenuViewController.swift */; };
 		1A6E47262086234100FB7C22 /* MenuListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E47252086234100FB7C22 /* MenuListViewController.swift */; };
 		1A78C35A21467C0200E63B9C /* ShareToUnlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A78C35921467C0200E63B9C /* ShareToUnlock.swift */; };
@@ -104,6 +105,7 @@
 		1A5057A02080E3C6007F71DA /* FavoriteProverbsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProverbsManager.swift; sourceTree = "<group>"; };
 		1A5B2C1A209DDD6500A6AA8C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		1A5B2C1C209DDE4900A6AA8C /* UIAlertController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extensions.swift"; sourceTree = "<group>"; };
+		1A5D8B6D24586BCB00A58063 /* ColorsRandomizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsRandomizer.swift; sourceTree = "<group>"; };
 		1A6E47232086232500FB7C22 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		1A6E47252086234100FB7C22 /* MenuListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewController.swift; sourceTree = "<group>"; };
 		1A78C35921467C0200E63B9C /* ShareToUnlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareToUnlock.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				1AA9C2A4207E160400C0B557 /* Reachability */,
 				1AA9C2A6207E160400C0B557 /* Utils.swift */,
 				1A3E381B2082304A00674B69 /* GlobalUI.swift */,
+				1A5D8B6D24586BCB00A58063 /* ColorsRandomizer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -511,7 +514,7 @@
 				1A0029DC207D097B00393B2F /* Frameworks */,
 				1A0029DD207D097B00393B2F /* Resources */,
 				43ADD953C4D0201909EA2F0C /* [CP] Embed Pods Frameworks */,
-				1AB1BB55207D0DEE001F419D /* Fabric */,
+				1AB1BB55207D0DEE001F419D /* Crachlytics */,
 				579DC1782902EA093ABC3DDF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -583,19 +586,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1AB1BB55207D0DEE001F419D /* Fabric */ = {
+		1AB1BB55207D0DEE001F419D /* Crachlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = Fabric;
+			name = Crachlytics;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" XXXX\n";
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		43ADD953C4D0201909EA2F0C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -670,6 +673,7 @@
 				1AE664A2208F62F70032F0A5 /* BaseTableViewCell.swift in Sources */,
 				1A24FFC1208E0C6700CB6D8F /* ProverbListTableViewCell.swift in Sources */,
 				1A4436852089FFEE002F7465 /* AllProverbsNavigationController.swift in Sources */,
+				1A5D8B6E24586BCB00A58063 /* ColorsRandomizer.swift in Sources */,
 				1AB6024720962E9500D44F61 /* NotificationsObserver.swift in Sources */,
 				1AA9C2C6207E263900C0B557 /* ProverbsManager.swift in Sources */,
 				1AA9C292207E12E500C0B557 /* RandomProverbViewController.swift in Sources */,
@@ -863,8 +867,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
@@ -873,7 +877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -889,8 +893,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Proverbs/Proverbs.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Proverbs/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -898,7 +902,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = demo.EnglishProverbsAndSayings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

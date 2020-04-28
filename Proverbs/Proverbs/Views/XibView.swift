@@ -2,7 +2,7 @@
 //  XibView.swift
 //  AdventurePlan
 //
-//  Created by Eugene Zozulya on 2/6/18.
+//  Created by Yevhenii Zozulia on 2/6/18.
 //  Copyright © 2018 HyprdrvMedia. All rights reserved.
 //
 

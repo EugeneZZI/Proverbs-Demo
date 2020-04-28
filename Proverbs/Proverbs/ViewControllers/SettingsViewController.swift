@@ -2,8 +2,8 @@
 //  SettingsViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -155,7 +155,7 @@ class SettingsViewController: BaseViewController {
     }
     
     private func showDisabledNotificationsAlert() {
-        UIAlertController.showAlert(self,
+        UIAlertController.show(forViewController: self,
                                     message: "Enable notifications in iOS settings first.",
                                     confirmButtonTitle: "Settings",
                                     cancelButtonTitle: "Cancel",

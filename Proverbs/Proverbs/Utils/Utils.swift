@@ -2,8 +2,8 @@
 //  Utils.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -30,32 +30,17 @@ struct ScreenSize {
     static let minLength        = min(ScreenSize.width, ScreenSize.height)
 }
 
-struct DeviceType {
-    static let iPhone_35          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxLength < 568.0
-    static let iPhone_40          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxLength == 568.0
-    static let iPhone_47          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxLength == 667.0
-    static let iPhone_55          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxLength == 736.0
-    static let iPhone_X           = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.maxLength == 812.0
-    static let iPad               = UIDevice.current.userInterfaceIdiom == .pad
-}
-
 // MARK: Logging
 
-func DLog(_ message: String, function: String = #function, line: Int = #line) {
-    #if DEBUG
-        let timeString = DateFormatter.loggingDateFormatter.string(from: Date())
-        print("\(timeString) \(function):\(line) --- \(message)")
-    #endif
-}
+private let logDateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm:ss.SSSS"
+    return dateFormatter
+}()
 
-private extension DateFormatter {
-    
-    static var loggingDateFormatter: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ssssss"
-        return dateFormatter
-    }
-    
+func DLog(_ message: String, function: String = #function, line: Int = #line) {
+    let timeString = logDateFormatter.string(from: Date())
+    print("\(timeString) \(function):\(line) --- \(message)")
 }
 
 // MARK: GCD

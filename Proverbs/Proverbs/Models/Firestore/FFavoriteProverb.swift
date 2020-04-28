@@ -2,8 +2,8 @@
 //  FFavoriteProverb.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/28/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/28/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import Foundation
@@ -35,7 +35,7 @@ class FFavoriteProverb: FavoriteProverb {
     }
     
     init(rProverb: RProverb) {
-        self._identifier        = String.randomString()
+        self._identifier        = String.random()
         self._originIdentifier  = rProverb._identifier
         self._createdAt         = Date()
         self._section           = rProverb._section
@@ -59,15 +59,15 @@ class FFavoriteProverb: FavoriteProverb {
     
     // MARK: - FavoriteProverb Protocol
     
-    var identifier:                 String          { return _identifier }
-    var createdAt:                  Date            { return _createdAt }
-    var isRealm:                    Bool            { return false }
+    var identifier:         String  { return _identifier }
+    var createdAt:          Date    { return _createdAt }
+    var isRealm:            Bool    { return false }
     
-    var text:                       String          { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._text ?? "" }
-    var meaning:                    String          { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._meaning ?? "" }
-    var section:                    String          { return _section }
+    var text:               String  { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._text ?? "" }
+    var meaning:            String  { return FFavoriteProverb.localStorage.getProverb(withIdentifier: self.originIdentifier)?._meaning ?? "" }
+    var section:            String  { return _section }
     
-    var originIdentifier:           String          { return _originIdentifier }
+    var originIdentifier:   String  { return _originIdentifier }
     
     func realmModel() -> Object? {
         return nil

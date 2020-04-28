@@ -2,8 +2,8 @@
 //  FavoritesProverbsViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -84,7 +84,7 @@ class FavoritesProverbsViewController: BannerViewController {
     }
     
     private func showSortOptionsSheet() {
-        if let action = ActionSheetViewController.makeWithTitle("Sort by") {
+        if let action = ActionSheetViewController.make(withTitle: "Sort by") {
             let button1 = ActionSheetItem(type: .select, title: "Alphabet") { _ in
                 self.currentSortOption = .alphabet
             }
@@ -213,7 +213,7 @@ class FavoritesProverbsViewController: BannerViewController {
         
         switch managerError {
         case .undefined:
-            UIAlertController.showAlert(withTitle: "Error", message: "Failed to delete proverb from favorites")
+            UIAlertController.show(withTitle: "Error", message: "Failed to delete proverb from favorites")
             return false
         default:
             return true

@@ -2,8 +2,8 @@
 //  RandomProverbViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/11/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/11/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -93,10 +93,7 @@ class RandomProverbViewController: BannerViewController {
     
     private func setupProverbLabels() {
         self.proverbLabel.typingTimeInterval = 0.01
-        self.proverbLabel.hideTextBeforeTypewritingAnimation = true
-        
         self.meaningLabel.typingTimeInterval = 0.01
-        self.meaningLabel.hideTextBeforeTypewritingAnimation = true
     }
     
     private func setupButtons() {
@@ -136,7 +133,6 @@ class RandomProverbViewController: BannerViewController {
     
     private func showNextProverb() {
         self.currentProverb = ProverbsManager.shared.getNextRandom()
-        self.proverbLabel.text = self.currentProverb?.text
         self.checkAndUpdateAddToFavoritesButton()
         
         self.isProverbInProgress = true
@@ -148,9 +144,11 @@ class RandomProverbViewController: BannerViewController {
             }
         }
         
-        self.proverbLabel.startTypewritingAnimation(completion: checkCompletion)
+        self.proverbLabel.text = self.currentProverb?.text
+        self.proverbLabel.restartTypewritingAnimation(completion: checkCompletion)
+        
         self.meaningLabel.text = self.currentProverb?.meaning
-        self.meaningLabel.startTypewritingAnimation(completion: checkCompletion)
+        self.meaningLabel.restartTypewritingAnimation(completion: checkCompletion)
     }
     
     private func checkAndSaveOrDeleteFavorite(proverb: Proverb) {
@@ -190,7 +188,7 @@ class RandomProverbViewController: BannerViewController {
     
     private func checkFavoriteManagerError(_ error: Error) {
         guard let managerError = error as? FavoriteProverbsManagerError else {
-            UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+            UIAlertController.show(withTitle: "Error", message: "Failed to save proverb to favorites")
             return
         }
         
@@ -198,7 +196,7 @@ class RandomProverbViewController: BannerViewController {
         case .maxLimit(_):
             self.showPurchaseAlert()
         default:
-            UIAlertController.showAlert(withTitle: "Error", message: "Failed to save proverb to favorites")
+            UIAlertController.show(withTitle: "Error", message: "Failed to save proverb to favorites")
         }
     }
     

@@ -2,8 +2,8 @@
 //  ActionSheetViewController.swift
 //  Proverbs
 //
-//  Created by Eugene Zozulya on 4/13/18.
-//  Copyright © 2018 Eugene Zozulya. All rights reserved.
+//  Created by Yevhenii Zozulia on 4/13/18.
+//  Copyright © 2018 Yevhenii Zozulia. All rights reserved.
 //
 
 import UIKit
@@ -72,7 +72,7 @@ class ActionSheetViewController: BaseViewController {
     
     // MARK: - Public Methods
     
-    class func makeWithTitle(_ title: String? = nil) -> ActionSheetViewController? {
+    class func make(withTitle title: String? = nil) -> ActionSheetViewController? {
         let retActionSheet = ActionSheetViewController.create()
         retActionSheet?.sheetTitle = title
         return retActionSheet
@@ -245,12 +245,10 @@ class ActionSheetViewController: BaseViewController {
             $0.frame = frame
         }
         
-        let startTimes = [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        let startTimes = Array(stride(from: 0.0, to: 0.8, by: 0.1))
         UIView.animateKeyframes(withDuration: 0.5, delay: 0.0, options: .calculationModeCubic, animations: {
             self.elementsViews.forEach { view in
-                let randomIndex = Int(arc4random_uniform(UInt32(startTimes.count)))
-                let startTime = startTimes[randomIndex]
-                
+                let startTime = startTimes.randomElement()!
                 UIView.addKeyframe(withRelativeStartTime: startTime, relativeDuration: 1.0 - startTime, animations: {
                     view.frame = originalFrames[view.tag] ?? CGRect.zero
                 })
@@ -270,8 +268,7 @@ class ActionSheetViewController: BaseViewController {
     
     private func startViewsDisappearance(completion: @escaping ClosureVoid) {
         let screenWidth = ScreenSize.width
-        let startTimes = [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-        
+        let startTimes = Array(stride(from: 0.0, to: 0.8, by: 0.1))
         UIView.animateKeyframes(withDuration: 0.5, delay: 0.0, options: .calculationModeCubic, animations: {
             self.elementsViews.forEach { view in
                 var frame = view.frame
@@ -286,8 +283,7 @@ class ActionSheetViewController: BaseViewController {
                     frame.origin.x = -frame.size.width
                 }
                 
-                let randomIndex = Int(arc4random_uniform(UInt32(startTimes.count)))
-                let startTime = startTimes[randomIndex]
+                let startTime = startTimes.randomElement()!
                 UIView.addKeyframe(withRelativeStartTime: startTime, relativeDuration: 1.0 - startTime, animations: {
                     view.frame = frame
                 })
