@@ -53,7 +53,7 @@ Yevhenii(Eugene) Zozulia:
 
 [https://www.linkedin.com/in/eugenezi/]
 
-YevheniiZozulia@sezorus.com
+[https://www.2zgroup.net/yevheniiz]
 
 
 ## License
@@ -70,3 +70,4 @@ Proverbs Demo iOS App is available under the MIT License. See the LICENSE file f
 [web site]: <https://www.saypro.me>
 [link]: <https://itunes.apple.com/us/app/saypro/id1377175139>
 [https://www.linkedin.com/in/eugenezi/]: <https://www.linkedin.com/in/eugenezi/>
+[https://www.2zgroup.net/yevheniiz]: <https://www.2zgroup.net/yevheniiz>
