@@ -1,0 +1,28 @@
+# Uncomment the next line to define a global platform for your project
+ platform :ios, '11.0'
+
+target 'Proverbs' do
+  use_frameworks!
+  inhibit_all_warnings!
+
+  pod 'ReachabilitySwift'
+  pod 'RealmSwift'
+  pod 'GhostTypewriter'
+  pod 'SwiftyStoreKit'
+  pod 'NVActivityIndicatorView'
+  pod 'MGSwipeTableCell'
+  pod 'DateToolsSwift'
+  pod 'TrueTime'
+  
+  pod 'Firebase/Auth'
+  pod 'Firebase/AdMob'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
+
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+  pod 'TwitterKit'
+  pod 'GoogleSignIn'
+
+end
